@@ -6,7 +6,10 @@ gem 'rails', '4.0.0'
 # Use PostgreSQL both in development & production
 gem 'pg', '0.17.0'
 
-# standard Rails stuff
+# Thin instead of WEBRick in development
+gem 'thin'
+
+# the default Rails gems
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -23,16 +26,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.14.0'
   gem 'selenium-webdriver', '~> 2.35.1'
   gem 'capybara', '~> 2.1.0'
+  gem 'guard-rspec', '~> 4.0.3'
+  gem 'launchy', '~> 2.3.0'
 end
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
