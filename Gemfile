@@ -28,4 +28,5 @@ group :development, :test do
   gem 'capybara', '~> 2.1.0'
   gem 'guard-rspec', '~> 4.0.3'
   gem 'launchy', '~> 2.3.0'
+  gem 'shoulda-matchers', '~> 2.4.0'
 end
