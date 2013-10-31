@@ -7,8 +7,9 @@ class Page < ActiveRecord::Base
   before_validation :build_wikititle, on: :create
 
   def build_wikititle
-    # need to enhance this later
-    self.wikititle = self.title.titleize.gsub(/\s+/, "") if self.title
+    if self.title
+      self.wikititle = Vswiki::Parser.make_wikititle(self.title)
+    end
   end
 
   def build_formatted_html
