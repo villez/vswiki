@@ -8,7 +8,6 @@ describe Page do
 
     it { expect(wikipage).to validate_presence_of :title }
     it { expect(wikipage).to validate_uniqueness_of :wikititle }
-    it { expect(wikipage).to validate_presence_of :wikitext }
 
     it "generates wikititle from title" do
       wikipage.build_wikititle
