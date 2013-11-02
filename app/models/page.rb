@@ -6,7 +6,7 @@ class Page < ActiveRecord::Base
   validates :wikititle, uniqueness: true
   validates :wikitext, presence: true
 
-  before_validation :build_wikititle, on: :create
+  before_validation :build_wikititle
 
   def build_wikititle
     if self.title
