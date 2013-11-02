@@ -15,8 +15,7 @@ class Page < ActiveRecord::Base
   end
 
   def build_formatted_html
-    # dummy version for now
-    self.formatted_html = self.wikitext if self.wikitext
+    self.formatted_html = Vswiki::Parser.format_html(self.wikitext) if self.wikitext
   end
 
   def to_param
