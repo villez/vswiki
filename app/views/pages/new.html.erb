@@ -1,0 +1,12 @@
+<h1>New page</h1>
+
+<%= form_for @page do |f| %>
+  <%= f.label :title, "Page title" %>
+  <%= f.text_field :title, required: true %>
+
+  <%= f.label :wikitext, "Page contents" %>
+  <%= f.text_area :wikitext %>
+
+  <%= f.submit "Save" %>
+
+<% end %>

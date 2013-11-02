@@ -4,6 +4,8 @@ Vswiki::Application.routes.draw do
 
   root 'pages#home'
 
+  resources :pages, path: "/"
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
