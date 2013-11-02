@@ -5,18 +5,25 @@ class PagesController < ApplicationController
   end
 
   def new
-    @page = Page.new
+    title = params[:title] || ""
+    @page = Page.new(title: title)
   end
 
   def create
     @page = Page.create(page_params)
     if @page.valid?
       redirect_to @page
+    else
+      render :edit
     end
   end
 
   def show
-    @page.build_formatted_html
+    if @page
+      @page.build_formatted_html
+    else
+      redirect_to new_page_path(title: params[:id])
+    end
   end
 
   def edit
