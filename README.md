@@ -1,8 +1,11 @@
 # vswiki
 
+[![Code Climate](https://codeclimate.com/github/villez/vswiki.png)](https://codeclimate.com/github/villez/vswiki)
+
 A personal wiki project. Because at the last count, there were only
 9999 different wiki implementations. And to try out the latest
-versions of tools, mainly Rails 4.0.
+versions of tools, mainly Rails 4.0. **Note: in very early stage of
+development!**
 
 
 ## Features
