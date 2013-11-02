@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   before_filter :get_page, only: [:show, :edit, :update]
 
-  def home
+  def index
   end
 
   def new
