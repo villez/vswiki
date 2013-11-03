@@ -16,6 +16,9 @@
 /log/*.log
 /tmp
 
+# ignore SimpleCov results
+coverage/
+
 # and these too
 doc/
 *~
