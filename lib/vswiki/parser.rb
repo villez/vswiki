@@ -12,27 +12,30 @@ module Vswiki
 
     def self.format_html(wikitext)
       wikitext = self.format_wikilinks(wikitext)
-      wikitext = self.format_extlinks(wikitext)
     end
 
     def self.format_wikilinks(wikitext)
-      links = wikitext.scan(/\[\[[^\]]*\]\]/)
+      links = self.get_bracketed_links(wikitext)
+      links += self.get_bare_external_links(wikitext)
       links.each do |link|
-        linktext = link.gsub(/[\[\]]/, "")
-        title = self.make_wikititle(linktext)
-        wikitext.gsub!(link, "<a href=\"#{title}\">#{linktext}</a>")
+        linktext, linklabel = get_link_text_and_label(link)
+        href = linktext.start_with?("http") ? linktext : self.make_wikititle(linktext)
+        wikitext.gsub!(link, "<a href=\"#{href}\">#{linklabel}</a>")
       end
       wikitext
     end
 
-    def self.format_extlinks(wikitext)
-      # not interested in verifying the correctness of the URL -
-      # that's the author's responsibility; just generate the anchor tag
-      extlinks = wikitext.scan(/https?:\/\/\S+/)
-      extlinks.each do |link|
-        wikitext.gsub!(link, "<a href=\"#{link}\">#{link}</a>")
-      end
-      wikitext
+    def self.get_bracketed_links(wikitext)
+      wikitext.scan(/\[\[[^\]]*\]\]/)
+    end
+
+    def self.get_bare_external_links(wikitext)
+      wikitext.scan(/https?:\/\/\S+/)
+    end
+
+    def self.get_link_text_and_label(link)
+      text, label = link.gsub(/[\[\]]/, "").split("|")
+      [text, label || text]
     end
   end
 end
