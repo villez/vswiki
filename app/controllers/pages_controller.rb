@@ -14,6 +14,7 @@ class PagesController < ApplicationController
     if @page.valid?
       redirect_to @page
     else
+      flash[:error] = "Cannot save with empty title"
       render :edit
     end
   end
@@ -33,6 +34,7 @@ class PagesController < ApplicationController
     if @page.update_attributes(page_params)
       redirect_to @page
     else
+      flash[:error] = "Cannot save with empty title"
       render :edit
     end
   end
