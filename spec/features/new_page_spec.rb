@@ -46,5 +46,15 @@ feature "Create a new page when visiting an non-existing page" do
     expect(page).to have_field("Page title", with: "NonExistentPage")
     expect(page).to have_field("Page contents", with: "")
   end
+end
 
+
+feature "Cancelling new page" do
+  scenario "cancel redirects to the home page" do
+    visit new_page_path
+    click_link "Cancel"
+
+    expect(page).to have_content("VSWiki Home Page")
+
+  end
 end

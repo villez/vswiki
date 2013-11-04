@@ -15,20 +15,11 @@ feature "Edit an existing page" do
     expect(page).to have_content("replacement text")
   end
 
-  scenario "show error when trying to save without title" do
-    fill_in "Page title", with: ""
-    click_button "Save"
+  scenario "cancelling edit shows the original page" do
+    fill_in "Page contents", with: "some new stuff"
+    click_link "Cancel"
 
-    expect(page).to have_content("Cannot save with empty title")
-  end
-
-
-  scenario "return to form and show error when renaming to a title already in use" do
-    Page.create(title: "ExistingPageTitle")
-    fill_in "Page title", with: "ExistingPageTitle"
-    fill_in "Page contents", with: "contents"
-    click_button "Save"
-    expect(page).to have_content("Title is already taken")
+    expect(page).to have_content("old page contents")
   end
 
 end

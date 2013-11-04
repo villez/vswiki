@@ -2,6 +2,20 @@
   <div class="col-xs 12 col-sm-12 col-md-12 col-lg12">
     <h1>New page</h1>
 
-    <%= render 'form' %>
+    <%= form_for @page do |f| %>
+      <div class="form-group">
+        <%= f.label :title, "Page title" %>
+        <%= f.text_field :title, required: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :wikitext, "Page contents" %>
+        <%= f.text_area :wikitext, class: "form-control", rows: 25 %>
+      </div>
+
+      <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
+
+      <%= link_to "Cancel", root_url, class: "btn btn-warning btn-sm" %>
+    <% end %>
   </div>
 </div>

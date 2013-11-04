@@ -12,10 +12,9 @@ class PagesController < ApplicationController
   def create
     @page = Page.create(page_params)
     if @page.valid?
-
       redirect_to @page
     else
-      if @page.title.blank?
+      if @page.errors.messages[:title]
         flash.now[:error] = "Cannot save with empty title"
       else
         flash.now[:error] = "Title is already taken"
@@ -39,11 +38,8 @@ class PagesController < ApplicationController
     if @page.update_attributes(page_params)
       redirect_to @page
     else
-      if @page.title.blank?
-        flash.now[:error] = "Cannot save with empty title"
-      else
-        flash.now[:error] = "Title is already taken"
-      end
+      # should not happen, as title not editable via form and
+      # there are currently no validations on content
       render :edit
     end
   end
