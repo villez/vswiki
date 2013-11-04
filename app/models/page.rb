@@ -1,4 +1,4 @@
-require "#{Rails.root}/lib/Vswiki/parser"
+require "#{Rails.root}/lib/vswiki/parser"
 
 class Page < ActiveRecord::Base
 
