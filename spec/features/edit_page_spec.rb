@@ -22,4 +22,13 @@ feature "Edit an existing page" do
     expect(page).to have_content("Cannot save with empty title")
   end
 
+
+  scenario "return to form and show error when renaming to a title already in use" do
+    Page.create(title: "ExistingPageTitle")
+    fill_in "Page title", with: "ExistingPageTitle"
+    fill_in "Page contents", with: "contents"
+    click_button "Save"
+    expect(page).to have_content("Title is already taken")
+  end
+
 end

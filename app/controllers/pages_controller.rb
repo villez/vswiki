@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter :get_page, only: [:show, :edit, :update]
+  before_filter :get_page, only: [:show, :edit, :update, :destroy]
 
   def index
   end
@@ -12,10 +12,15 @@ class PagesController < ApplicationController
   def create
     @page = Page.create(page_params)
     if @page.valid?
+
       redirect_to @page
     else
-      flash[:error] = "Cannot save with empty title"
-      render :edit
+      if @page.title.blank?
+        flash.now[:error] = "Cannot save with empty title"
+      else
+        flash.now[:error] = "Title is already taken"
+      end
+      render :new
     end
   end
 
@@ -34,9 +39,18 @@ class PagesController < ApplicationController
     if @page.update_attributes(page_params)
       redirect_to @page
     else
-      flash[:error] = "Cannot save with empty title"
+      if @page.title.blank?
+        flash.now[:error] = "Cannot save with empty title"
+      else
+        flash.now[:error] = "Title is already taken"
+      end
       render :edit
     end
+  end
+
+  def destroy
+    @page.destroy
+    redirect_to root_url
   end
 
 
