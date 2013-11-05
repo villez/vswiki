@@ -12,7 +12,7 @@ class PagesController < ApplicationController
   def create
     @page = Page.create(page_params)
     if @page.valid?
-      redirect_to @page
+      redirect_to_show_or_edit(params)
     else
       if @page.errors.messages[:title]
         flash.now[:error] = "Cannot save with empty title"
@@ -36,7 +36,7 @@ class PagesController < ApplicationController
 
   def update
     if @page.update_attributes(page_params)
-      redirect_to @page
+      redirect_to_show_or_edit(params)
     else
       # should not happen, as title not editable via form and
       # there are currently no validations on content
@@ -58,5 +58,13 @@ class PagesController < ApplicationController
 
   def page_params
     params.require(:page).permit(:title, :wikitext)
+  end
+
+  def redirect_to_show_or_edit(params)
+    if params[:save_and_edit]
+      render "edit"
+    else
+      redirect_to @page
+    end
   end
 end
