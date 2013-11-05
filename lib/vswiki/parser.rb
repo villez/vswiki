@@ -11,7 +11,16 @@ module Vswiki
     end
 
     def self.format_html(wikitext)
+      wikitext = self.format_paragraphs(wikitext)
       wikitext = self.format_wikilinks(wikitext)
+    end
+
+    def self.format_paragraphs(wikitext)
+      paragraphs = self.get_paragraphs(wikitext)
+      paragraphs.each do |para|
+        wikitext.gsub!(para, "<p>#{para}</p>")
+      end
+      wikitext
     end
 
     def self.format_wikilinks(wikitext)
@@ -23,6 +32,10 @@ module Vswiki
         wikitext.gsub!(link, "<a href=\"#{href}\">#{linklabel}</a>")
       end
       wikitext
+    end
+
+    def self.get_paragraphs(wikitext)
+      wikitext.scan(/(.+)(?:(?:\r\n){2,}|\n*\Z)/).flatten
     end
 
     def self.get_bracketed_links(wikitext)
