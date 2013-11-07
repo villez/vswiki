@@ -51,7 +51,6 @@ module Vswiki
 
     def get_link_text_and_label(link)
       text, label = link.gsub(/[\[\]]/, "").split("|")
-      puts text, label
       [text, label || text]
     end
 
