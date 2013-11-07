@@ -5,58 +5,13 @@ require_relative '../../../lib/vswiki/parser'
 module Vswiki
   describe Parser do
 
+    parser = Vswiki::Parser.new
+
     describe "wikititles" do
       let(:normaltitle) { "normal string with whitespace" }
 
       it "creates wikititle from a normal string" do
-        expect(Vswiki::Parser.make_wikititle(normaltitle)).to eq "NormalStringWithWhitespace"
-      end
-    end
-
-    describe "simple wikilinks" do
-      let(:link) { "[[some link]]" }
-
-      it "creates an anchor tag for a wikilink" do
-        expect(Vswiki::Parser.format_wikilinks(link)).to eq '<a href="SomeLink">some link</a>'
-      end
-    end
-
-    describe "wikilink with label" do
-      let(:labeledlink) { "[[some link|displayed text]]" }
-
-      it "creates an anchor tag with label as link text" do
-        expect(Vswiki::Parser.format_wikilinks(labeledlink)).
-          to eq '<a href="SomeLink">displayed text</a>'
-      end
-    end
-
-    describe "bare external links" do
-      let(:httplink) { "http://www.google.com" }
-      let(:httpslink) { "https://www.google.fi" }
-
-      it "creates an anchor tag for an external http(s) link" do
-        expect(Vswiki::Parser.format_wikilinks(httplink)).
-          to eq '<a href="http://www.google.com">http://www.google.com</a>'
-        expect(Vswiki::Parser.format_wikilinks(httpslink)).
-          to eq '<a href="https://www.google.fi">https://www.google.fi</a>'
-      end
-    end
-
-    describe "bracket-enclosed external links" do
-      let(:httplink) { "[[http://www.google.com]]" }
-
-      it "creates an anchor tag but doesn't capitalize" do
-        expect(Vswiki::Parser.format_wikilinks(httplink)).
-          to eq '<a href="http://www.google.com">http://www.google.com</a>'
-      end
-    end
-
-    describe "labeling external links" do
-      let(:extlinkwlabel) { "[[http://www.google.fi/|Google]]" }
-
-      it "creates an anchor tag with label as link text" do
-        expect(Vswiki::Parser.format_wikilinks(extlinkwlabel)).
-          to eq '<a href="http://www.google.fi/">Google</a>'
+        expect(parser.make_wikititle(normaltitle)).to eq "NormalStringWithWhitespace"
       end
     end
 
@@ -64,9 +19,60 @@ module Vswiki
       let(:paragraphs) { "first para\r\n\r\nsecond para\r\n\r\nthird para" }
 
       it "creates paragraph tags for text surrounded by blank lines" do
-        expect(Vswiki::Parser.format_paragraphs(paragraphs)).
+        expect(parser.to_html(paragraphs)).
           to eq "<p>first para</p>\r\n\r\n<p>second para</p>\r\n\r\n<p>third para</p>"
       end
     end
+
+    describe "simple wikilinks" do
+      let(:link) { "[[some link]]" }
+
+      it "creates an anchor tag for a wikilink" do
+        expect(parser.to_html(link)).to eq '<p><a href="SomeLink">some link</a></p>'
+      end
+    end
+
+    describe "wikilink with label" do
+      let(:labeledlink) { "[[some link|displayed text]]" }
+
+      it "creates an anchor tag with label as link text" do
+        expect(parser.to_html(labeledlink)).
+          to eq '<p><a href="SomeLink">displayed text</a></p>'
+      end
+    end
+
+    describe "bare external links" do
+      let(:httplink) { "http://www.google.com" }
+      let(:httpslink) { "https://www.google.fi" }
+
+      it "creates an anchor tag for an external http link" do
+        expect(parser.to_html(httplink)).
+          to eq '<p><a href="http://www.google.com">http://www.google.com</a></p>'
+      end
+      it "creates an anchor tag for an external https link" do
+        expect(parser.to_html(httpslink)).
+          to eq '<p><a href="https://www.google.fi">https://www.google.fi</a></p>'
+      end
+    end
+
+    describe "bracket-enclosed external links" do
+      let(:httplink) { "[[http://www.google.com]]" }
+
+      it "creates an anchor tag but doesn't capitalize" do
+        expect(parser.to_html(httplink)).
+          to eq '<p><a href="http://www.google.com">http://www.google.com</a></p>'
+      end
+    end
+
+    describe "labeling external links" do
+      let(:extlinkwlabel) { "[[http://www.google.fi/|Google]]" }
+
+      it "creates an anchor tag with label as link text" do
+        expect(parser.to_html(extlinkwlabel)).
+          to eq '<p><a href="http://www.google.fi/">Google</a></p>'
+      end
+    end
+
+
   end
 end

@@ -9,12 +9,12 @@ class Page < ActiveRecord::Base
 
   def build_wikititle
     if self.title
-      self.wikititle = Vswiki::Parser.make_wikititle(self.title)
+      self.wikititle = Vswiki::Parser.new.make_wikititle(self.title)
     end
   end
 
   def build_formatted_html
-    self.formatted_html = Vswiki::Parser.format_html(self.wikitext) if self.wikitext
+    self.formatted_html = Vswiki::Parser.new.to_html(self.wikitext) if self.wikitext
   end
 
   def to_param
