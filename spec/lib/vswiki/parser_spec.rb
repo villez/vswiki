@@ -17,10 +17,34 @@ module Vswiki
 
     describe "paragraphs based on blank lines (or end of string)" do
       let(:paragraphs) { "first para\r\n\r\nsecond para\r\n\r\nthird para" }
+      let(:singlenewline) { "first line\r\nsecond line\r\nthird line" }
 
       it "creates paragraph tags for text surrounded by blank lines" do
         expect(parser.to_html(paragraphs)).
           to eq "<p>first para</p><p>second para</p><p>third para</p>"
+      end
+
+      it "collects lines separated by single newline into a single paragraph" do
+        expect(parser.to_html(singlenewline)).
+          to eq"<p>first line\r\nsecond line\r\nthird line</p>"
+      end
+    end
+
+    describe "heading tags" do
+      let(:first) { "=First Heading Level" }
+      let(:third) { "=== Third Heading Level" }
+      let(:fifth) { "=====Fifth Heading Level\n" }
+      let(:paragraphs) { "first para\r\n\r\nsecond para" }
+
+      it "creates correct heading tags based on number of leading '='s" do
+        expect(parser.to_html(first)).to eq "<h1>First Heading Level</h1>"
+        expect(parser.to_html(third)).to eq "<h3>Third Heading Level</h3>"
+        expect(parser.to_html(fifth)).to eq "<h5>Fifth Heading Level</h5>"
+      end
+
+      it "correctly follows paragraphs after heading" do
+        expect(parser.to_html(first + "\r\n" + paragraphs)).
+          to eq "<h1>First Heading Level</h1><p>first para</p><p>second para</p>"
       end
     end
 
