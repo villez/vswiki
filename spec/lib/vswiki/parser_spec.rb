@@ -20,7 +20,7 @@ module Vswiki
 
       it "creates paragraph tags for text surrounded by blank lines" do
         expect(parser.to_html(paragraphs)).
-          to eq "<p>first para</p>\r\n\r\n<p>second para</p>\r\n\r\n<p>third para</p>"
+          to eq "<p>first para</p><p>second para</p><p>third para</p>"
       end
     end
 
