@@ -30,21 +30,25 @@ module Vswiki
       end
     end
 
-    describe "heading tags" do
-      let(:first) { "=First Heading Level" }
-      let(:third) { "=== Third Heading Level" }
-      let(:fifth) { "=====Fifth Heading Level\n" }
+    describe "heading tags with '=' (optional suffix) and '!'" do
+      let(:h1) { "=First Level Heading" }
+      let(:h2) { "!!Second Level Heading" }
+      let(:h3) { "=== Third Level Heading ===" }
+      let(:h4) { "!!!!Fourth Level Heading\r\n" }
+      let(:h5) { "=====Fifth Level Heading=====\n" }
       let(:paragraphs) { "first para\r\n\r\nsecond para" }
 
       it "creates correct heading tags based on number of leading '='s" do
-        expect(parser.to_html(first)).to eq "<h1>First Heading Level</h1>"
-        expect(parser.to_html(third)).to eq "<h3>Third Heading Level</h3>"
-        expect(parser.to_html(fifth)).to eq "<h5>Fifth Heading Level</h5>"
+        expect(parser.to_html(h1)).to eq "<h1>First Level Heading</h1>"
+        expect(parser.to_html(h2)).to eq "<h2>Second Level Heading</h2>"
+        expect(parser.to_html(h3)).to eq "<h3>Third Level Heading</h3>"
+        expect(parser.to_html(h4)).to eq "<h4>Fourth Level Heading</h4>"
+        expect(parser.to_html(h5)).to eq "<h5>Fifth Level Heading</h5>"
       end
 
       it "correctly follows paragraphs after heading" do
-        expect(parser.to_html(first + "\r\n" + paragraphs)).
-          to eq "<h1>First Heading Level</h1><p>first para</p><p>second para</p>"
+        expect(parser.to_html(h1 + "\r\n" + paragraphs)).
+          to eq "<h1>First Level Heading</h1><p>first para</p><p>second para</p>"
       end
     end
 
