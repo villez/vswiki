@@ -4,10 +4,11 @@ require 'english'  # $POST_MATCH instead of $' etc.
 module Vswiki
   class Parser
 
-    SELF_CLOSING_TAGS = %i(:br :hr :img)  # Ruby 2.0 syntax!
+    SELF_CLOSING_TAGS = %i(br hr img)  # Ruby 2.0 array of symbols literal syntax
 
     # regular expressions for parsing
     RE_HEADING = /\A\s*([=!]{1,6})\s*(.*?)\s*=*$(\r?\n)*/
+    RE_HR = /\A\s*\-{4,}\s*$(\r?\n)*/
     RE_PARAGRAPH = /\A(.+?)((\r\n){2,}|(\r\n)*\Z)/m
     RE_VALID_URL_CHARS = /[A-Za-z0-9\-\._~:\/\?#\[\]@!$&'\(\)\*\+,;=]/
     RE_BRACKETED_LINK = /\[\[[^\]]*\]\]/
@@ -40,6 +41,8 @@ module Vswiki
         heading_level = Regexp.last_match(1).size
         heading_text = Regexp.last_match(2)
         output = make_tag("h#{heading_level}", heading_text)
+      when RE_HR
+        output = make_tag(:hr)
       when RE_PARAGRAPH
         output = make_paragraph(Regexp.last_match(1))
       end
@@ -80,11 +83,11 @@ module Vswiki
       [text, label || text]
     end
 
-    def make_tag(tag, content, attributes = {})
+    def make_tag(tag, content = "", attributes = {})
       output = "<#{tag}"
       attributes.each { |k, v| output << " #{k}=\"#{v}\"" }
-      if selfclosing? tag
-        output << "/>"
+      if selfclosing?(tag)
+        output << " />"
       else
         output << ">#{content}</#{tag}>"
       end

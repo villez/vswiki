@@ -101,6 +101,16 @@ module Vswiki
       end
     end
 
+    describe "horizontal rule" do
+      it "creates a hr tag" do
+        expect(parser.to_html("----")).to eq("<hr />")
+        expect(parser.to_html("-----  ")).to eq("<hr />")
+      end
+
+      it "generates just a paragraph for < 4 dashes" do
+        expect(parser.to_html("---")).to eq("<p>---</p>")
+      end
+    end
 
   end
 end

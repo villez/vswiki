@@ -32,6 +32,7 @@ Current markup features include:
   `!!Heading 2`
  * Wikilinks with `[[wiki page|display label]]`
  * automatic recognition of bare http(s) links
+ * horizontal rule with `----`
 
 
 ## Tools & Dependencies
