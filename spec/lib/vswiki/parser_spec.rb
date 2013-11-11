@@ -101,6 +101,35 @@ module Vswiki
       end
     end
 
+    describe "simple unordered lists" do
+      it "creates a ul tag and a li tag inside it" do
+        expect(parser.to_html("* list item 1")).
+          to eq("<ul><li>list item 1</li></ul>")
+      end
+
+      it "combines consecutive list items into a single ul" do
+        expect(parser.to_html("* list item 1\r\n*list item 2\n* list item 3")).
+          to eq("<ul><li>list item 1</li><li>list item 2</li><li>list item 3</li></ul>")
+      end
+    end
+
+    describe "nested unordered lists" do
+      it "creates nested ul tags for multiple *'s" do
+        expect(parser.to_html("* list item 1\r\n**list item 1.1\r\n*list item 2")).
+          to eq("<ul><li>list item 1</li><ul><li>list item 1.1</li></ul><li>list item 2</li></ul>")
+      end
+
+      it "supports deeper ul nesting" do
+        expect(parser.to_html("* list item 1\r\n**list item 1.1\r\n***list item 1.1.1\r\n*list item 2")).
+          to eq("<ul><li>list item 1</li><ul><li>list item 1.1</li><ul><li>list item 1.1.1</li></ul></ul><li>list item 2</li></ul>")
+      end
+
+      it "formats links in list elements" do
+        expect(parser.to_html("* [[LinkHere]]\r\n* [[Link There]]")).
+          to eq('<ul><li><a href="LinkHere">LinkHere</a></li><li><a href="LinkThere">Link There</a></li></ul>')
+      end
+    end
+
     describe "horizontal rule" do
       it "creates a hr tag" do
         expect(parser.to_html("----")).to eq("<hr />")

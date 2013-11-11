@@ -32,6 +32,8 @@ Current markup features include:
   `!!Heading 2`
  * Wikilinks with `[[wiki page|display label]]`
  * automatic recognition of bare http(s) links
+ * unordered lists with 1 or more *'s, number of asterisks indicates
+   nesting level
  * horizontal rule with `----`
 
 
