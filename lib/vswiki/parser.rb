@@ -88,6 +88,8 @@ module Vswiki
 
       list_block.lines.each do |li|
         li_type, li_level, li_text = parse_list_item(li)
+        next if li_type == nil
+
         li_text = parse_inline(li_text)
         new_node = ListNode.new(li_text, li_level, li_type)
         add_list_node(previous_node, new_node, li_level)
@@ -137,11 +139,17 @@ module Vswiki
           :ul
         elsif /\A\s*#/ =~ li
           :ol
+        else
+          nil
         end
-      level = li.match(RE_LI_PREFIX)[1].size   # count the *'s or #'s at the beginning
-      stripped_text = li.gsub(RE_LI_PREFIX, "").gsub(/\r|\n/, "").strip
 
-      [type, level, stripped_text]
+      return nil if type == nil  # not a list element after all
+
+      if type
+        level = li.match(RE_LI_PREFIX)[1].size   # count the *'s or #'s at the beginning
+        stripped_text = li.gsub(RE_LI_PREFIX, "").gsub(/\r|\n/, "").strip
+        [type, level, stripped_text]
+      end
     end
 
 
