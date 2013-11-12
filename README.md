@@ -46,6 +46,7 @@ Current markup features include:
  * RSpec & Capybara
  * PostgreSQL (also in development & test environments)
  * Shoulda-matchers (in testing)
+ * Bootstrap 3 for layout & styling
 
 
 ## Copyright & License
