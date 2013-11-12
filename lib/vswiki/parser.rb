@@ -55,25 +55,30 @@ module Vswiki
 
     # the main parser loop
     #
-    # recursively match the input wikitext block-by-block for known elements and
+    # parse the input wikitext block-by-block, matching known elements, and
     # generate the corresponding HTML output
 
     def parse_text_block(wikitext)
-      case wikitext
-      when RE_HEADING
-        heading_level = Regexp.last_match(1).size
-        heading_text = Regexp.last_match(2)
-        output = make_tag("h#{heading_level}", heading_text)
-      when RE_LIST_BLOCK
-        output = make_list(Regexp.last_match(1))
-      when RE_HR
-        output = make_tag(:hr)
-      when RE_PARAGRAPH
-        output = make_paragraph(Regexp.last_match(1))
-      end
+      output = ""
+      while not wikitext.blank?
+        case wikitext
+        when RE_HEADING
+          heading_level = Regexp.last_match(1).size
+          heading_text = Regexp.last_match(2)
+          output << make_tag("h#{heading_level}", heading_text)
+        when RE_LIST_BLOCK
+          output = make_list(Regexp.last_match(1))
+        when RE_HR
+          output << make_tag(:hr)
+        when RE_PARAGRAPH
+          output << make_paragraph(Regexp.last_match(1))
+        else
+          output << wikitext
+        end
 
-      # recursively parse the rest of the text and add to the output
-      output += parse_text_block($POSTMATCH) if $POSTMATCH && !$POSTMATCH.empty?
+        # in the next iteration, parse the remaining text not matched this time
+        wikitext = $POSTMATCH
+      end
       output
     end
 
