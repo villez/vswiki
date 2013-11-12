@@ -130,6 +130,20 @@ module Vswiki
       end
     end
 
+    describe "nested ordered lists" do
+      it "creates nested ol tags for multiple #'s" do
+        expect(parser.to_html("# item 1\r\n##item 1.1\r\n###item 1.1.1\r\n#item 2")).
+          to eq("<ol><li>item 1</li><ol><li>item 1.1</li><ol><li>item 1.1.1</li></ol></ol><li>item 2</li></ol>")
+      end
+    end
+
+    describe "mixed ul and ol" do
+      it "allows nesting <ul> in <ol> and vice versa" do
+        expect(parser.to_html("* item 1\r\n##item 1.1\r\n***item 1.1.1\r\n*item 2")).
+          to eq("<ul><li>item 1</li><ol><li>item 1.1</li><ul><li>item 1.1.1</li></ul></ol><li>item 2</li></ul>")
+      end
+    end
+
     describe "horizontal rule" do
       it "creates a hr tag" do
         expect(parser.to_html("----")).to eq("<hr />")
