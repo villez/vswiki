@@ -31,7 +31,8 @@ module Vswiki
     # ordered & unordered lists
     RE_LI_PREFIX = /\A\s*([*#]+)\s*/
     RE_LIST_BLOCK = /(#{RE_LI_PREFIX}(.*?))#{RE_BLANK_LINE}/m
-
+    RE_LI_UL = /\A\s*\*/
+    RE_LI_OL = /\A\s*#/
 
     # the interface method for converting a string to a wikititle
     #
@@ -93,7 +94,7 @@ module Vswiki
 
       list_block.lines.each do |li|
         li_type, li_level, li_text = parse_list_item(li)
-        next if li_type == nil
+        next if li_type.nil?
 
         li_text = parse_inline(li_text)
         new_node = ListNode.new(li_text, li_level, li_type)
@@ -137,24 +138,17 @@ module Vswiki
       output
     end
 
-    # return type, level, text
+    # return type, level, and text for the list item
     def parse_list_item(li)
-      type =
-        if /\A\s*\*/ =~ li
-          :ul
-        elsif /\A\s*#/ =~ li
-          :ol
-        else
-          nil
-        end
+      type = case li
+             when RE_LI_UL then :ul
+             when RE_LI_OL then :ol
+             else return [nil, nil, nil] # not a list element after all
+             end
 
-      return nil if type == nil  # not a list element after all
-
-      if type
-        level = li.match(RE_LI_PREFIX)[1].size   # count the *'s or #'s at the beginning
-        stripped_text = li.gsub(RE_LI_PREFIX, "").gsub(/\r|\n/, "").strip
-        [type, level, stripped_text]
-      end
+      level = li.match(RE_LI_PREFIX)[1].size   # count the *'s or #'s at the beginning
+      stripped_text = li.gsub(RE_LI_PREFIX, "").gsub(/\r|\n/, "").strip
+      [type, level, stripped_text]
     end
 
 
@@ -193,12 +187,7 @@ module Vswiki
     def make_tag(tag, content = "", attributes = {})
       output = "<#{tag}"
       attributes.each { |k, v| output << " #{k}=\"#{v}\"" }
-      if self_closing?(tag)
-        output << " />"
-      else
-        output << ">#{content}</#{tag}>"
-      end
-      output
+      output << (self_closing?(tag) ? " />" :  ">#{content}</#{tag}>")
     end
 
     def self_closing?(tag)
