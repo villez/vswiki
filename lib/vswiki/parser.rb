@@ -1,6 +1,5 @@
 require_relative './list_node'
 require 'active_support/core_ext'  # String#titleize
-require 'english'                  # $POST_MATCH instead of $' etc.
 
 module Vswiki
   class Parser
@@ -10,7 +9,6 @@ module Vswiki
     # regular expressions for parsing markup elements
 
     # separators/end markers
-    #RE_END_OF_LINE = /$(\r?\n)*|\Z/
     RE_END_OF_LINE = /(\r?\n)|\Z/
     RE_BLANK_LINE = /((\r?\n){2,}|(\r?\n)*\Z)/
 
@@ -25,21 +23,17 @@ module Vswiki
 
     # links & urls
     RE_VALID_URL_CHARS = /[A-Za-z0-9\-\._~:\/\?#\[\]@!$&'\(\)\*\+,;=]/
-    RE_BRACKETED_LINK = /\[\[[^\]]*\]\]/
-    RE_BARE_LINK = /(?:[^\[]|\A)(https?:\/\/#{RE_VALID_URL_CHARS}+)/
+    RE_BRACKETED_LINK = /\A\[\[[^\]]*\]\]/
+    RE_BARE_LINK = /\A(?:[^\[]|\A)(https?:\/\/#{RE_VALID_URL_CHARS}+)/
     RE_BRACKETS = /[\[\]]/
 
     # ordered & unordered lists
     RE_LI_PREFIX = /\A\s*([*#]+)\s*/
     RE_LIST_BLOCK = /(#{RE_LI_PREFIX}(.*?))#{RE_BLANK_LINE}/m
-    RE_LI_UL = /\A\s*\*/
-    RE_LI_OL = /\A\s*#/
 
     # fenced & inline code blocks
     RE_CODE_BLOCK = /\A\s*^`{3}(?<lang>\w+)?\r?\n(?<preblock>.+?)^`{3}\s*#{RE_END_OF_LINE}/m
-    RE_INLINE_CODE_BACKTICK = /`/
-    RE_INLINE_CODE_DOUBLE_AT = /@@/
-    RE_INLINE_CODE = /(`.*`)|(@@.*@@)/
+    RE_INLINE_CODE = /\A((`.*?`)|(@{2}.*?@{2}))/
 
     # the interface method for converting a string to a wikititle
     #
@@ -83,17 +77,64 @@ module Vswiki
         when RE_HR
           output << make_tag(:hr)
         when RE_PARAGRAPH
-          output << make_paragraph(Regexp.last_match(1))
+          output <<  make_tag(:p, parse_inline_markup(Regexp.last_match(1)))
         else
           output << wikitext
         end
 
         # in the next iteration, parse the remaining text not matched this time
-        wikitext = $POSTMATCH
+        wikitext = Regexp.last_match.post_match
       end
       output
     end
 
+    # parsing markup within a paragraph or a list item (and other elems in the future)
+    def parse_inline_markup(wikitext)
+      inline_output = ""
+      while not wikitext.blank?
+        case wikitext
+        when RE_INLINE_CODE
+          inline_output << make_tag(:code, strip_inline_code_markup(Regexp.last_match(0)))
+        when RE_BRACKETED_LINK, RE_BARE_LINK
+          inline_output << format_link(Regexp.last_match(0))
+        when /[^`]|@[^@]+/
+          # all the rest is output as-is - TBD: need to update when adding new inline markup
+          inline_output << Regexp.last_match(0)
+        end
+        wikitext = Regexp.last_match.post_match
+      end
+      inline_output
+    end
+
+    def make_tag(tag, content = "", attributes = {})
+      output = "<#{tag}"
+      attributes.each { |k, v| output << " #{k}=\"#{v}\"" }
+      output << (self_closing?(tag) ? " />" :  ">#{content}</#{tag}>")
+    end
+
+    def self_closing?(tag)
+      SELF_CLOSING_TAGS.include?(tag.to_sym)
+    end
+
+    def strip_inline_code_markup(inline_code)
+      if inline_code.start_with?("`")
+        markup = "`"
+      elsif inline_code.start_with?("@@")
+        markup = "@@"
+      end
+      inline_code.gsub(markup, "")
+    end
+
+    def format_link(link_markup)
+      linktext, linklabel = get_link_text_and_label(link_markup)
+      href = linktext.start_with?("http") ? linktext : make_wikititle(linktext)
+      make_tag(:a, linklabel, href: href)
+    end
+
+    def get_link_text_and_label(link)
+      text, label = link.gsub(RE_BRACKETS, "").split("|")
+      [text, label || text]
+    end
 
     def make_list(wikitext)
       list_tree = create_list_tree(wikitext)
@@ -107,7 +148,7 @@ module Vswiki
         li_type, li_level, li_text = parse_list_item(li)
         next if li_type.nil?
 
-        li_text = parse_inline(li_text)
+        li_text = parse_inline_markup(li_text)
         new_node = ListNode.new(li_text, li_level, li_type)
         add_list_node(previous_node, new_node, li_level)
         previous_node = new_node
@@ -151,76 +192,17 @@ module Vswiki
 
     # return type, level, and text for the list item
     def parse_list_item(li)
-      type = case li
-             when RE_LI_UL then :ul
-             when RE_LI_OL then :ol
-             else return [nil, nil, nil] # not a list element after all
-             end
+      if li.start_with?("*")
+        type = :ul
+      elsif li.start_with?("#")
+        type = :ol
+      else
+        return [nil, nil, nil] # not a list element after all
+      end
 
       level = li.match(RE_LI_PREFIX)[1].size   # count the *'s or #'s at the beginning
-      stripped_text = li.gsub(RE_LI_PREFIX, "").gsub(/\r|\n/, "").strip
+      stripped_text = li.gsub(RE_LI_PREFIX, "").strip
       [type, level, stripped_text]
-    end
-
-
-    def make_paragraph(wikitext)
-      make_tag(:p, parse_inline(wikitext))
-    end
-
-    def parse_inline(wikitext)
-      format_inline_code(wikitext)
-      format_wikilinks(wikitext)
-    end
-
-    def format_inline_code(wikitext)
-      code_blocks = wikitext.scan(RE_INLINE_CODE).flatten
-      code_blocks.each do |cb|
-        next if cb.nil?
-        wikitext.gsub!(cb, make_tag(:code, cb.gsub(get_inline_block_delimiter(cb), "")))
-      end
-      wikitext
-    end
-
-    def get_inline_block_delimiter(code_block)
-      if code_block =~ RE_INLINE_CODE_BACKTICK
-        "`"
-      elsif code_block =~ RE_INLINE_CODE_DOUBLE_AT
-        "@@"
-      end
-    end
-
-    def format_wikilinks(wikitext)
-      links = get_bracketed_links(wikitext)
-      links += get_bare_external_links(wikitext)
-      links.each do |link|
-        linktext, linklabel = get_link_text_and_label(link)
-        href = linktext.start_with?("http") ? linktext : make_wikititle(linktext)
-        wikitext.gsub!(link, make_tag(:a, linklabel, href: href))
-      end
-      wikitext
-    end
-
-    def get_bracketed_links(wikitext)
-      wikitext.scan(RE_BRACKETED_LINK)
-    end
-
-    def get_bare_external_links(wikitext)
-      wikitext.scan(RE_BARE_LINK).flatten
-    end
-
-    def get_link_text_and_label(link)
-      text, label = link.gsub(RE_BRACKETS, "").split("|")
-      [text, label || text]
-    end
-
-    def make_tag(tag, content = "", attributes = {})
-      output = "<#{tag}"
-      attributes.each { |k, v| output << " #{k}=\"#{v}\"" }
-      output << (self_closing?(tag) ? " />" :  ">#{content}</#{tag}>")
-    end
-
-    def self_closing?(tag)
-      SELF_CLOSING_TAGS.include?(tag.to_sym)
     end
   end
 end

@@ -170,6 +170,21 @@ module Vswiki
         expect(parser.to_html("paragraph with @@preformatted@@ text")).
           to eq("<p>paragraph with <code>preformatted</code> text</p>")
       end
+
+      it "allows ` within @@ preformatted block and vice versa" do
+        expect(parser.to_html("@@` backtick here@@ and `double-at @@ here`")).
+          to eq("<p><code>` backtick here</code> and <code>double-at @@ here</code></p>")
+      end
+
+      it "doesn't make an anchor tag for a link in a preformatted inline block" do
+        expect(parser.to_html("this is `not a link: [[Link]]`")).
+          to eq("<p>this is <code>not a link: [[Link]]</code></p>")
+      end
+
+      it "allows single @'s in text without making a preformatted block" do
+        expect(parser.to_html("email test@example.com doesn't cause preformat")).
+          to eq("<p>email test@example.com doesn't cause preformat</p>")
+      end
     end
 
     describe "horizontal rule" do
