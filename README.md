@@ -34,6 +34,9 @@ Current markup features include:
  * automatic recognition of bare http(s) links
  * unordered lists with 1 or more *'s and ordered lists with 1 or more
    #'s; number of asterisks/hashes indicates the nesting level
+ * preformatted code blocks with the same "fenced" syntax as
+   Github-flavored markdown
+ * preformatted inline text with either single backquotes or @@text@@
  * can nest unordered lists within ordered lists and vice versa
  * horizontal rule with `----`
 

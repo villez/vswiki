@@ -10,7 +10,8 @@ module Vswiki
     # regular expressions for parsing markup elements
 
     # separators/end markers
-    RE_END_OF_LINE = /$(\r?\n)*/
+    #RE_END_OF_LINE = /$(\r?\n)*|\Z/
+    RE_END_OF_LINE = /(\r?\n)|\Z/
     RE_BLANK_LINE = /((\r?\n){2,}|(\r?\n)*\Z)/
 
     # headings
@@ -33,6 +34,12 @@ module Vswiki
     RE_LIST_BLOCK = /(#{RE_LI_PREFIX}(.*?))#{RE_BLANK_LINE}/m
     RE_LI_UL = /\A\s*\*/
     RE_LI_OL = /\A\s*#/
+
+    # fenced & inline code blocks
+    RE_CODE_BLOCK = /\A\s*^`{3}(?<lang>\w+)?\r?\n(?<preblock>.+?)^`{3}\s*#{RE_END_OF_LINE}/m
+    RE_INLINE_CODE_BACKTICK = /`/
+    RE_INLINE_CODE_DOUBLE_AT = /@@/
+    RE_INLINE_CODE = /(`.*`)|(@@.*@@)/
 
     # the interface method for converting a string to a wikititle
     #
@@ -63,12 +70,16 @@ module Vswiki
       output = ""
       while not wikitext.blank?
         case wikitext
+        when RE_CODE_BLOCK
+          lang = Regexp.last_match(:lang)
+          opts = (lang ? { class: "language-#{lang}" } : {})
+          output << make_tag(:pre, make_tag(:code, Regexp.last_match(:preblock), opts))
         when RE_HEADING
           heading_level = Regexp.last_match(1).size
           heading_text = Regexp.last_match(2)
           output << make_tag("h#{heading_level}", heading_text)
         when RE_LIST_BLOCK
-          output = make_list(Regexp.last_match(1))
+          output << make_list(Regexp.last_match(1))
         when RE_HR
           output << make_tag(:hr)
         when RE_PARAGRAPH
@@ -157,7 +168,25 @@ module Vswiki
     end
 
     def parse_inline(wikitext)
+      format_inline_code(wikitext)
       format_wikilinks(wikitext)
+    end
+
+    def format_inline_code(wikitext)
+      code_blocks = wikitext.scan(RE_INLINE_CODE).flatten
+      code_blocks.each do |cb|
+        next if cb.nil?
+        wikitext.gsub!(cb, make_tag(:code, cb.gsub(get_inline_block_delimiter(cb), "")))
+      end
+      wikitext
+    end
+
+    def get_inline_block_delimiter(code_block)
+      if code_block =~ RE_INLINE_CODE_BACKTICK
+        "`"
+      elsif code_block =~ RE_INLINE_CODE_DOUBLE_AT
+        "@@"
+      end
     end
 
     def format_wikilinks(wikitext)

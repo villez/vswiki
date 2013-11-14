@@ -144,6 +144,34 @@ module Vswiki
       end
     end
 
+    describe "preformatted code block" do
+      it "creates a <pre><code> block" do
+        expect(parser.to_html("\r\n\r\n```\r\npreformatted\r\ntext\r\nblock\r\n```")).
+          to eq("<pre><code>preformatted\r\ntext\r\nblock\r\n</code></pre>")
+      end
+
+      it "adds language class when language name given" do
+        expect(parser.to_html("```ruby\r\ndef foo\r\n  puts 'foo!'\r\nend\r\n```")).
+          to eq("<pre><code class=\"language-ruby\">def foo\r\n  puts 'foo!'\r\nend\r\n</code></pre>")
+      end
+
+      it "does not format headings or links within preformatted block" do
+        expect(parser.to_html("```\r\n!!Heading\r\n[[Link]]\r\n```")).
+          to eq("<pre><code>!!Heading\r\n[[Link]]\r\n</code></pre>")
+      end
+    end
+
+    describe "inline preformatted text" do
+      it "creates an inline code block with backticks" do
+        expect(parser.to_html("paragraph with `preformatted` text")).
+          to eq("<p>paragraph with <code>preformatted</code> text</p>")
+      end
+      it "creates an inline code block with double @" do
+        expect(parser.to_html("paragraph with @@preformatted@@ text")).
+          to eq("<p>paragraph with <code>preformatted</code> text</p>")
+      end
+    end
+
     describe "horizontal rule" do
       it "creates a hr tag" do
         expect(parser.to_html("----")).to eq("<hr />")
