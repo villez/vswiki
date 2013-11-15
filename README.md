@@ -30,6 +30,8 @@ Current markup features include:
    considered to be part of the same paragraph
  * Headings: either `== Heading 2`,  `== Heading 2 ==`, or
   `!!Heading 2`
+ * emphasized text with `''emphasis''`, strong text with
+   `'''strong'''`, and strong + emphasis with `'''''very strong'''''`
  * Wikilinks with `[[wiki page|display label]]`
  * automatic recognition of bare http(s) links
  * unordered lists with 1 or more *'s and ordered lists with 1 or more
