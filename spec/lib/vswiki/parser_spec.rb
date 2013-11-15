@@ -187,6 +187,27 @@ module Vswiki
       end
     end
 
+    describe "emphasis" do
+      it "creates an em tag" do
+        expect(parser.to_html("this is ''important''")).
+          to eq("<p>this is <em>important</em></p>")
+      end
+    end
+
+    describe "strong" do
+      it "creates a strong tag" do
+        expect(parser.to_html("I feel very '''strongly''' about this")).
+          to eq("<p>I feel very <strong>strongly</strong> about this</p>")
+      end
+    end
+
+    describe "strong emphasis" do
+      it "creates an em tag within a strong tag" do
+        expect(parser.to_html("This is a '''''critical''''' issue")).
+          to eq("<p>This is a <strong><em>critical</em></strong> issue</p>")
+      end
+    end
+
     describe "horizontal rule" do
       it "creates a hr tag" do
         expect(parser.to_html("----")).to eq("<hr />")

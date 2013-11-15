@@ -35,6 +35,11 @@ module Vswiki
     RE_CODE_BLOCK = /\A\s*^`{3}(?<lang>\w+)?\r?\n(?<preblock>.+?)^`{3}\s*#{RE_END_OF_LINE}/m
     RE_INLINE_CODE = /\A((`.*?`)|(@{2}.*?@{2}))/
 
+    # inline emphasis & strong
+    RE_STRONG_EMPHASIS = /\A('{5})(.*?)('{5})/
+    RE_STRONG = /\A('{3})(.*?)('{3})/
+    RE_EMPHASIS = /\A('{2})(.*?)('{2})/
+
     # the interface method for converting a string to a wikititle
     #
     # more complex handling for special characters might be needed
@@ -97,6 +102,12 @@ module Vswiki
           inline_output << make_tag(:code, strip_inline_code_markup(Regexp.last_match(0)))
         when RE_BRACKETED_LINK, RE_BARE_LINK
           inline_output << format_link(Regexp.last_match(0))
+        when RE_STRONG_EMPHASIS
+          inline_output << make_tag(:strong, make_tag(:em, Regexp.last_match(2)))
+        when RE_STRONG
+          inline_output << make_tag(:strong, Regexp.last_match(2))
+        when RE_EMPHASIS
+          inline_output << make_tag(:em, Regexp.last_match(2))
         when /[^`]|@[^@]+/
           # all the rest is output as-is - TBD: need to update when adding new inline markup
           inline_output << Regexp.last_match(0)
