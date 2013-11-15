@@ -103,11 +103,12 @@ module Vswiki
         when RE_BRACKETED_LINK, RE_BARE_LINK
           inline_output << format_link(Regexp.last_match(0))
         when RE_STRONG_EMPHASIS
-          inline_output << make_tag(:strong, make_tag(:em, Regexp.last_match(2)))
+          inline_output << make_tag(:strong,
+                                    make_tag(:em, parse_inline_markup(Regexp.last_match(2))))
         when RE_STRONG
-          inline_output << make_tag(:strong, Regexp.last_match(2))
+          inline_output << make_tag(:strong, parse_inline_markup(Regexp.last_match(2)))
         when RE_EMPHASIS
-          inline_output << make_tag(:em, Regexp.last_match(2))
+          inline_output << make_tag(:em, parse_inline_markup(Regexp.last_match(2)))
         when /[^`]|@[^@]+/
           # all the rest is output as-is - TBD: need to update when adding new inline markup
           inline_output << Regexp.last_match(0)

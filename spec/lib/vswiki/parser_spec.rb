@@ -192,12 +192,21 @@ module Vswiki
         expect(parser.to_html("this is ''important''")).
           to eq("<p>this is <em>important</em></p>")
       end
+
+      it "formats links within emphasized text" do
+        expect(parser.to_html("''emphasized text with [[Link]]'' within")).
+          to eq("<p><em>emphasized text with <a href=\"Link\">Link</a></em> within</p>")
+      end
     end
 
     describe "strong" do
       it "creates a strong tag" do
         expect(parser.to_html("I feel very '''strongly''' about this")).
           to eq("<p>I feel very <strong>strongly</strong> about this</p>")
+      end
+      it "formats links within strong text" do
+        expect(parser.to_html("'''strong text with [[Link]]''' within")).
+          to eq("<p><strong>strong text with <a href=\"Link\">Link</a></strong> within</p>")
       end
     end
 
@@ -206,7 +215,13 @@ module Vswiki
         expect(parser.to_html("This is a '''''critical''''' issue")).
           to eq("<p>This is a <strong><em>critical</em></strong> issue</p>")
       end
+      it "formats links within strong emphasis text" do
+        expect(parser.to_html("'''''strong emphasis text with [[Link]]''''' within")).
+          to eq("<p><strong><em>strong emphasis text with <a href=\"Link\">Link</a></em></strong> within</p>")
+      end
     end
+
+
 
     describe "horizontal rule" do
       it "creates a hr tag" do
