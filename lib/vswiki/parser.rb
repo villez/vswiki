@@ -9,8 +9,8 @@ module Vswiki
     # regular expressions for parsing markup elements
 
     # separators/end markers
-    RE_END_OF_LINE = /(\r?\n)|\Z/
-    RE_BLANK_LINE = /((\r?\n){2,}|(\r?\n)*\Z)/
+    RE_END_OF_LINE = /\n|\Z/
+    RE_BLANK_LINE = /\n{2,}|(\n*\Z)/
 
     # headings
     RE_HEADING = /\A\s*([=!]{1,6})\s*(.*?)\s*=*#{RE_END_OF_LINE}/
@@ -32,7 +32,7 @@ module Vswiki
     RE_LIST_BLOCK = /(#{RE_LI_PREFIX}(.*?))#{RE_BLANK_LINE}/m
 
     # fenced & inline code blocks
-    RE_CODE_BLOCK = /\A\s*^`{3}(?<lang>\w+)?\r?\n(?<preblock>.+?)^`{3}\s*#{RE_END_OF_LINE}/m
+    RE_CODE_BLOCK = /\A\s*^`{3}(?<lang>\w+)?\n(?<preblock>.+?)^`{3}\s*#{RE_END_OF_LINE}/m
     RE_INLINE_CODE = /\A((`.*?`)|(@{2}.*?@{2}))/
 
     # inline emphasis & strong
@@ -51,6 +51,7 @@ module Vswiki
 
     # the main interface method for wikitext conversion to html
     def to_html(wikitext)
+      wikitext = normalize_wikitext(wikitext)
       parse_text_block(wikitext)
     end
 
@@ -116,6 +117,14 @@ module Vswiki
         wikitext = Regexp.last_match.post_match
       end
       inline_output
+    end
+
+    # remove any carriage returns in the input markup, and use just newlines;
+    # cr's aren't needed in the output HTML, and not having to worry about
+    # the optional \r's makes the regular expressions for checking 
+    # end of line, blank line, end of input etc. much cleaner
+    def normalize_wikitext(wikitext)
+      wikitext.gsub(/\r\n?/, "\n")
     end
 
     def make_tag(tag, content = "", attributes = {})
@@ -209,7 +218,9 @@ module Vswiki
       elsif li.start_with?("#")
         type = :ol
       else
-        return [nil, nil, nil] # not a list element after all
+        # not a list element after all; just a safeguard, will not 
+        # happen if the pattern matching works correctly 
+        return [nil, nil, nil]
       end
 
       level = li.match(RE_LI_PREFIX)[1].size   # count the *'s or #'s at the beginning

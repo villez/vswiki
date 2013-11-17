@@ -17,6 +17,10 @@ module Vswiki
       end
     end
 
+
+    # use \r\n for newlines in all the input examples, since that's what is
+    # getting submitted via the new/edit form by browsers
+    # the \r's are stripped by the parser, so none should appear in the outputs
     describe "paragraphs based on blank lines (or end of string)" do
       it "creates paragraph tags for text surrounded by blank lines" do
         expect(parser.to_html("first para\r\n\r\nsecond para\r\n\r\nthird para")).
@@ -25,8 +29,15 @@ module Vswiki
 
       it "collects lines separated by single newline into a single paragraph" do
         expect(parser.to_html("first line\r\nsecond line\r\nthird line")).
-          to eq"<p>first line\r\nsecond line\r\nthird line</p>"
+          to eq"<p>first line\nsecond line\nthird line</p>"
       end
+
+      # a basic example of input that has just \n for newlines to begin with
+      it "creates paragraph tags for text surrounded by blank lines" do
+        expect(parser.to_html("first para\n\nsecond para\n\nthird para")).
+          to eq "<p>first para</p><p>second para</p><p>third para</p>"
+      end
+      
     end
 
     describe "Headings" do
@@ -150,17 +161,17 @@ module Vswiki
       describe "preformatted code block" do
         it "creates a <pre><code> block" do
           expect(parser.to_html("\r\n\r\n```\r\npreformatted\r\ntext\r\nblock\r\n```")).
-            to eq("<pre><code>preformatted\r\ntext\r\nblock\r\n</code></pre>")
+            to eq("<pre><code>preformatted\ntext\nblock\n</code></pre>")
         end
 
         it "adds language class when language name given" do
           expect(parser.to_html("```ruby\r\ndef foo\r\n  puts 'foo!'\r\nend\r\n```")).
-            to eq("<pre><code class=\"language-ruby\">def foo\r\n  puts 'foo!'\r\nend\r\n</code></pre>")
+            to eq("<pre><code class=\"language-ruby\">def foo\n  puts 'foo!'\nend\n</code></pre>")
         end
 
         it "does not format headings or links within preformatted block" do
           expect(parser.to_html("```\r\n!!Heading\r\n[[Link]]\r\n```")).
-            to eq("<pre><code>!!Heading\r\n[[Link]]\r\n</code></pre>")
+            to eq("<pre><code>!!Heading\n[[Link]]\n</code></pre>")
         end
       end
 
