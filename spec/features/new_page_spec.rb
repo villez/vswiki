@@ -17,7 +17,7 @@ feature "Create a New Page" do
     fill_in "Page title", with: "new page title"
     fill_in "Page contents", with: "text for the new page"
     click_button "Save"
-    expect(page).to have_title("NewPageTitle")
+    expect(page).to have_title("new page title")
     expect(page).to have_content("new page title")
     expect(page).to have_content("text for the new page")
   end

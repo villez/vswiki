@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vswiki</title>
+    <title><%= yield(:title) %></title>
     <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
   </head>
   <body>
 
-    <div class="flash-container">
-      <% if flash.keys.include?(:error) %>
-        <%= content_tag :div, flash[:error], class: "alert alert-danger"  %>
-      <% end %>
-    </div>
-
     <div class="container">
+      <div class="flash-container">
+        <% if flash.keys.include?(:error) %>
+          <%= content_tag :div, flash[:error], class: "alert alert-danger"  %>
+        <% end %>
+      </div>
+      
       <%= yield %>
     </div>
   </body>

@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   before_filter :get_page, only: [:show, :edit, :update, :destroy]
+  before_filter :get_sidebar, only: [:show, :index]
 
   def index
   end
@@ -54,6 +55,12 @@ class PagesController < ApplicationController
 
   def get_page
     @page = Page.find_by(wikititle: params[:id])
+  end
+
+  def get_sidebar
+    @sidebar = Page.find_by(wikititle: "Sidebar") ||
+      Page.create(title: "Sidebar", wikitext: "!!Sidebar\nDefault sidebar")
+    @sidebar.build_formatted_html
   end
 
   def page_params
