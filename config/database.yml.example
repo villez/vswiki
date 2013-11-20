@@ -1,0 +1,16 @@
+# PostgreSQL for development & testing
+development:
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  username: user # change this!
+  database: vswiki_dev
+  pool: 5
+
+test: &test
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  username: user  # change this!
+  database: vswiki_test
+  pool: 5
