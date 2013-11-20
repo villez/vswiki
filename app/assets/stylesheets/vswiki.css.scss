@@ -1,15 +1,18 @@
 @import "bootstrap";
 
+.container {
+    width: 1000px !important;
+}
 
 .sidebar-homelink {
     font-size: 1.5em;
-    padding: 15px 0;
+    padding: 10px 0;
 }
 
 .formatted-page-content {
-    padding: 5px 5px 10px 15px;
+    margin: 5px 0px 5px 20px;
 }
 
-.wiki-sidebar {
-    padding: 5px 10px 5px 0;
+.wiki-sidebar aside {
+    margin: 5px 0;
 }

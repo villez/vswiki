@@ -2,9 +2,9 @@
 
 <div class="row">
   <%= render "sidebar" %>
-  <div class="col-xs-10 col-sm-10 col-md-10 col-lg10">
-    <h1><%= @page.title %></h1>
+  <div class="col-xs-10">
     <div class="formatted-page-content">
+      <h1><%= @page.title %></h1>
       <%= raw(@page.formatted_html) %>
     </div>
     <%= link_to "Edit page", edit_page_path(@page), class: "btn btn-primary btn-sm" %>
