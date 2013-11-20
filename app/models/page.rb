@@ -7,9 +7,13 @@ class Page < ActiveRecord::Base
 
   before_validation :build_wikititle
 
+  def self.make_wikititle(str)
+    Vswiki::Parser.new.make_wikititle(str)
+  end
+
   def build_wikititle
     if self.title
-      self.wikititle = Vswiki::Parser.new.make_wikititle(self.title)
+      self.wikititle = Page.make_wikititle(self.title)
     end
   end
 

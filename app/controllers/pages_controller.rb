@@ -1,8 +1,12 @@
 class PagesController < ApplicationController
   before_filter :get_page, only: [:show, :edit, :update, :destroy]
   before_filter :get_sidebar, only: [:show, :index]
+  before_filter :format_page, only: [:show]
 
   def index
+    if params[:go_to_page]  # the go-to-page miniform in the sidebar
+      redirect_to action: "show", id: Page.make_wikititle(params[:go_to_page])
+    end
   end
 
   def new
@@ -25,11 +29,7 @@ class PagesController < ApplicationController
   end
 
   def show
-    if @page
-      @page.build_formatted_html
-    else
-      redirect_to new_page_path(title: params[:id])
-    end
+    redirect_to new_page_path(title: params[:id]) unless @page
   end
 
   def edit
@@ -61,6 +61,10 @@ class PagesController < ApplicationController
     @sidebar = Page.find_by(wikititle: "Sidebar") ||
       Page.create(title: "Sidebar", wikitext: "!!Sidebar\nDefault sidebar")
     @sidebar.build_formatted_html
+  end
+
+  def format_page
+    @page.build_formatted_html if @page
   end
 
   def page_params

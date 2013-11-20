@@ -4,6 +4,7 @@ feature "Sidebar" do
 
   let!(:sidebar) { Page.create(title: "Sidebar", wikitext: "this is the sidebar!") }
   let!(:a_page) { Page.create(title: "some other page", wikitext: "page wikitext") }
+  let!(:another_page) { Page.create(title: "another page", wikitext: "random text here") }
 
   scenario "show sidebar on the home page" do
     visit root_url
@@ -42,5 +43,14 @@ feature "Sidebar" do
     visit page_path(a_page)
 
     expect(page).to have_content("new stuff for sidebar")
+  end
+
+  scenario "sidebar's quick-go-to page miniform" do
+    visit page_path(a_page)
+    within ".wiki-sidebar" do
+      fill_in 'Go to page', with: "another page"
+      click_button "Go"
+    end
+    expect(page).to have_content(another_page.wikitext)
   end
 end

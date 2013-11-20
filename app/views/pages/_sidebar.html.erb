@@ -5,7 +5,13 @@
       <%= link_to "Home page", pages_path %>
     </div>
     
-    <%= link_to "New page", new_page_path, class: "btn btn-success btn-xs" %>
+    <div class="sidebar-goto" %>
+      <%= form_tag("/", method: "get") do %>
+        <%= label_tag(:go_to_page, "Go to page:") %>
+        <%= text_field_tag(:go_to_page) %>
+        <%= submit_tag("Go", class: "btn btn-primary btn-xs") %>
+      <% end %>
+    </div>
     
     <div>
       <%= raw(@sidebar.formatted_html) %>
