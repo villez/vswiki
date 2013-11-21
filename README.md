@@ -36,6 +36,7 @@ Current markup features include:
  * automatic recognition of bare http(s) links
  * unordered lists with 1 or more *'s and ordered lists with 1 or more
    #'s; number of asterisks/hashes indicates the nesting level
+ * tables with a block of `|table|rows|with|pipe|for|cell|separation|`
  * preformatted code blocks with the same "fenced" syntax as
    Github-flavored markdown
  * preformatted inline text with either single backquotes or @@text@@

@@ -35,10 +35,15 @@ module Vswiki
     RE_CODE_BLOCK = /\A\s*^`{3}(?<lang>\w+)?\n(?<preblock>.+?)^`{3}\s*#{RE_END_OF_LINE}/m
     RE_INLINE_CODE = /\A((`.*?`)|(@{2}.*?@{2}))/
 
+    # tables
+    RE_TABLE_BLOCK = /(^\|(.*?)#{RE_END_OF_LINE})+/m
+
+
     # inline emphasis & strong
     RE_STRONG_EMPHASIS = /\A('{5})(.*?)('{5})/
     RE_STRONG = /\A('{3})(.*?)('{3})/
     RE_EMPHASIS = /\A('{2})(.*?)('{2})/
+
 
     # the interface method for converting a string to a wikititle
     #
@@ -80,6 +85,8 @@ module Vswiki
           output << make_tag("h#{heading_level}", heading_text)
         when RE_LIST_BLOCK
           output << make_list(Regexp.last_match(1))
+        when RE_TABLE_BLOCK
+          output << make_tag(:table, parse_table(Regexp.last_match(0)))
         when RE_HR
           output << make_tag(:hr)
         when RE_PARAGRAPH
@@ -135,6 +142,28 @@ module Vswiki
 
     def self_closing?(tag)
       SELF_CLOSING_TAGS.include?(tag.to_sym)
+    end
+
+    def parse_table(wikitext)
+      table_output = ""
+      tbl_rows = wikitext.split("\n")
+      tbl_rows.each do |tr|
+        table_output << make_tag(:tr, parse_table_cells(tr))
+      end
+      table_output
+    end
+
+    def parse_table_cells(tr)
+      tr_output = ""
+      tr_cells = tr.split("|")
+      tr_cells[1..-1].each do |cell_text|
+        if cell_text.start_with?("!", "=")
+          tr_output << make_tag(:th, parse_inline_markup(cell_text[1..-1]))
+        else
+          tr_output << make_tag(:td, parse_inline_markup(cell_text))
+        end
+      end
+      tr_output
     end
 
     def strip_inline_code_markup(inline_code)

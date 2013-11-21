@@ -261,5 +261,27 @@ end
         end
       end
     end
+
+    describe "Tables" do
+      describe "basic table markup" do
+        it "creates table, tr & td tags" do
+          expect(parser.to_html("|cell1a|cell1b|\n|cell2a|cell2b|")).
+            to eq("<table><tr><td>cell1a</td><td>cell1b</td></tr><tr><td>cell2a</td><td>cell2b</td></tr></table>")
+        end
+
+        it "creates th tags for ! or = prefixed cell content" do
+          expect(parser.to_html("|!cell1a|!cell1b|\n|cell2a|cell2b|")).
+            to eq("<table><tr><th>cell1a</th><th>cell1b</th></tr><tr><td>cell2a</td><td>cell2b</td></tr></table>")          
+          expect(parser.to_html("|=cell1a|=cell1b|\n|cell2a|cell2b|")).
+            to eq("<table><tr><th>cell1a</th><th>cell1b</th></tr><tr><td>cell2a</td><td>cell2b</td></tr></table>")
+        end
+
+        it "parses inline markup within table cells" do
+          expect(parser.to_html("|cell1a|''cell1b''|\n|[[link]]|cell2b|")).
+            to eq("<table><tr><td>cell1a</td><td><em>cell1b</em></td></tr><tr><td><a href=\"Link\">link</a></td><td>cell2b</td></tr></table>")
+        end
+      end
+      
+    end
   end
 end
