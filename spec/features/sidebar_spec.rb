@@ -16,7 +16,7 @@ feature "Sidebar" do
     visit page_path(a_page)
     expect(page).to have_content("some other page")
     expect(page).to have_css("div.wiki-sidebar")
-    expect(page).to have_link("Home page")
+    expect(page).to have_link("Home")
     expect(page).to have_content("this is the sidebar!")
   end
 
