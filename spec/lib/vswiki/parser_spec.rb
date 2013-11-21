@@ -280,8 +280,17 @@ end
           expect(parser.to_html("|cell1a|''cell1b''|\n|[[link]]|cell2b|")).
             to eq("<table><tr><td>cell1a</td><td><em>cell1b</em></td></tr><tr><td><a href=\"Link\">link</a></td><td>cell2b</td></tr></table>")
         end
-      end
-      
-    end
+
+        it "doesn't confuse labeled links cell borders" do
+          expect(parser.to_html("|cell1a|''cell1b''|\n|link: [[link|label]]|cell2b|")).
+            to eq("<table><tr><td>cell1a</td><td><em>cell1b</em></td></tr><tr><td>link: <a href=\"Link\">label</a></td><td>cell2b</td></tr></table>")
+        end
+
+        it "handles empty cells" do
+          expect(parser.to_html("|cell1a| |\n| |cell2b|")).
+            to eq("<table><tr><td>cell1a</td><td></td></tr><tr><td></td><td>cell2b</td></tr></table>")
+        end
+      end # basic table markup
+    end # Tables
   end
 end

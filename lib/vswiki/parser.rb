@@ -37,7 +37,7 @@ module Vswiki
 
     # tables
     RE_TABLE_BLOCK = /(^\|(.*?)#{RE_END_OF_LINE})+/m
-
+    RE_TABLE_CELL_TEXT = /\|((\[\[.*?\]\]|[^|])+)(?=\||\z)/
 
     # inline emphasis & strong
     RE_STRONG_EMPHASIS = /\A('{5})(.*?)('{5})/
@@ -155,8 +155,8 @@ module Vswiki
 
     def parse_table_cells(tr)
       tr_output = ""
-      tr_cells = tr.split("|")
-      tr_cells[1..-1].each do |cell_text|
+      tr_cells = get_table_cells(tr)
+      tr_cells.each do |cell_text|
         if cell_text.start_with?("!", "=")
           tr_output << make_tag(:th, parse_inline_markup(cell_text[1..-1]))
         else
@@ -164,6 +164,12 @@ module Vswiki
         end
       end
       tr_output
+    end
+
+    def get_table_cells(tr)
+      cells = []
+      tr.scan(RE_TABLE_CELL_TEXT) { cells << Regexp.last_match(1) }
+      cells
     end
 
     def strip_inline_code_markup(inline_code)
