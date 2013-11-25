@@ -10,7 +10,38 @@
 }
 
 .formatted-page-content {
-    margin: 5px 0px 5px 20px;
+    margin: 5px 0px 12px 20px;
+    padding: 5px 20px;
+    border: 1px solid;
+    
+    h2, h3, h4, h5, h6 {
+        color: maroon;
+    }
+    h2 {
+        border-bottom: 1px solid;
+    }
+
+    p {
+        margin: 15px 0 15px 0;
+        font-size: 16px;
+    }
+    table {
+        margin: 15px 0 15px 0;
+        font-size: 16px;
+        tr, td, th {
+            padding: 0 10px;
+        }
+    }
+
+    ul, ol {
+        font-size: 16px;
+        margin-left: -20px;
+    }
+
+    ul {
+        list-style: disc outside none;
+    }
+
 }
 
 .wiki-sidebar aside {
