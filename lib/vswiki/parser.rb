@@ -5,6 +5,7 @@ module Vswiki
   class Parser
 
     SELF_CLOSING_TAGS = %i(br hr img)  # Ruby 2.0 array of symbols literal syntax
+    BLOCK_TAGS = %i(h1 h2 h3 h4 h5 h6 p ul ol table pre hr)
 
     # regular expressions for parsing markup elements
 
@@ -144,10 +145,16 @@ module Vswiki
       output = "<#{tag}"
       attributes.each { |k, v| output << " #{k}=\"#{v}\"" }
       output << (self_closing?(tag) ? " />" :  ">#{content}</#{tag}>")
+      output << "\n" if block_tag?(tag)
+      output
     end
 
     def self_closing?(tag)
       SELF_CLOSING_TAGS.include?(tag.to_sym)
+    end
+
+    def block_tag?(tag)
+      BLOCK_TAGS.include?(tag.to_sym)
     end
 
     def parse_table(wikitext)
