@@ -37,6 +37,9 @@ Current markup features include:
  * unordered lists with 1 or more *'s and ordered lists with 1 or more
    #'s; number of asterisks/hashes indicates the nesting level
  * tables with a block of `|table|rows|with|pipe|for|cell|separation|`
+ * setting text color with `%green%this is colored%%`. The parameter
+   accepts the same values as the CSS color property - color names,
+   hex values, etc. 
  * preformatted code blocks with the same "fenced" syntax as
    Github-flavored markdown
  * preformatted inline text with either single backquotes or @@text@@

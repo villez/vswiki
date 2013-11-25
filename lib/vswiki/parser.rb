@@ -44,6 +44,9 @@ module Vswiki
     RE_STRONG = /\A('{3})(.*?)('{3})/
     RE_EMPHASIS = /\A('{2})(.*?)('{2})/
 
+    # inline text coloring
+    RE_TEXT_COLOR = /\A%(.+?)%(.+?)%%/
+
 
     # the interface method for converting a string to a wikititle
     #
@@ -117,6 +120,9 @@ module Vswiki
           inline_output << make_tag(:strong, parse_inline_markup(Regexp.last_match(2)))
         when RE_EMPHASIS
           inline_output << make_tag(:em, parse_inline_markup(Regexp.last_match(2)))
+        when RE_TEXT_COLOR
+          inline_output << make_tag(:span, parse_inline_markup(Regexp.last_match(2)),
+                                    style: "color: #{Regexp.last_match(1)};")
         when /[^`]|@[^@]+/
           # all the rest is output as-is - TBD: need to update when adding new inline markup
           inline_output << Regexp.last_match(0)

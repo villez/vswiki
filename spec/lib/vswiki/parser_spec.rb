@@ -292,5 +292,27 @@ end
         end
       end # basic table markup
     end # Tables
+
+    describe "Text Coloring" do
+      it "generates a span within a paragraph with text color set to name" do
+        expect(parser.to_html("this text has %green%some green text%% within")).
+          to eq("<p>this text has <span style=\"color: green;\">some green text</span> within</p>")
+      end
+
+      it "generates a span within a paragraph with text color set to hex value" do
+        expect(parser.to_html("this text has %#7a6d5f%some green text%% within")).
+          to eq("<p>this text has <span style=\"color: #7a6d5f;\">some green text</span> within</p>")
+      end
+      
+      it "supports other inline markup within colored text" do
+        expect(parser.to_html("this text has %green%some ''green'' text%% within")).
+          to eq("<p>this text has <span style=\"color: green;\">some <em>green</em> text</span> within</p>")
+      end
+
+      it "supports colored text within other inline markup" do
+        expect(parser.to_html("this '''strong text has %green%some green text%% within'''")).
+          to eq("<p>this <strong>strong text has <span style=\"color: green;\">some green text</span> within</strong></p>")
+      end
+    end
   end
 end
