@@ -36,7 +36,7 @@ module Vswiki
     RE_INLINE_CODE = /\A((`.*?`)|(@{2}.*?@{2}))/
 
     # tables
-    RE_TABLE_BLOCK = /(^\|(.*?)#{RE_END_OF_LINE})+/m
+    RE_TABLE_BLOCK = /(\A^\|(.*?)#{RE_BLANK_LINE})+/m
     RE_TABLE_CELL_TEXT = /\|((\[\[.*?\]\]|[^|])+)(?=\||\z)/
 
     # inline emphasis & strong
