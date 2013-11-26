@@ -1,21 +1,30 @@
-<div class="col-xs-2 wiki-sidebar">
+<div class="hidden-xs col-sm-2 sidebar">
   <aside>
-
-    <div class="sidebar-homelink" %>
+    <div class="homelink" %>
       <%= link_to "Home", pages_path %>
     </div>
     
-    <div class="sidebar-goto" %>
+    <div class="goto-page" %>
       <%= form_tag("/", method: "get") do %>
-        <%= label_tag(:go_to_page, "Go to page:") %>
-        <%= text_field_tag(:go_to_page) %>
-        <%= submit_tag("Go", class: "btn btn-primary btn-xs") %>
+        <div class="input-group">
+          <%= text_field_tag(:go_to_page, nil, placeholder: "Go to page", class: "form-control input-sm") %>
+          <span class="input-group-btn">
+            <%= button_tag(type: "submit", title: "Go", class: "btn btn-default btn-sm") do%>
+              <span class="glyphicon glyphicon-chevron-right text-primary"></span>
+            <% end %>
+          </span>
+        </div>
       <% end %>
     </div>
     
     <div>
       <%= raw(@sidebar.formatted_html) %>
-      <%= link_to "Edit sidebar", edit_page_path(@sidebar), class: "btn btn-primary btn-xs" %>
     </div>
+
+    <div>
+      <%= link_to edit_page_path(@sidebar), class: "btn btn-default btn-sm" do%>
+          <span class="glyphicon glyphicon-edit text-primary"></span> Edit sidebar
+      <% end %>
+   </div>
   </aside>
 </div>

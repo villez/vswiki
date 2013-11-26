@@ -1,0 +1,11 @@
+<%= button_tag type: "submit", name: "commit", class: "btn btn-default btn-sm" do %>
+  <span class="glyphicon glyphicon-save text-primary"></span> Save
+<% end %>
+<%= button_tag type: "submit", name: "save_and_edit", class: "btn btn-default btn-sm" do %>
+  <span class="glyphicon glyphicon-save text-primary"></span>
+  <span class="glyphicon glyphicon-edit text-primary"></span>
+  Save &amp; edit
+<% end %>
+<%= link_to @page, class: "btn btn-default btn-sm" do %>
+  <span class="glyphicon glyphicon-remove text-warning"></span> Cancel
+<% end %>

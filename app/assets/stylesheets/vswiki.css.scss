@@ -1,16 +1,29 @@
 @import "bootstrap";
 
-.container {
-    width: 1000px !important;
+
+body {
+    background: #f8f8f8;
 }
 
-.sidebar-homelink {
-    font-size: 1.5em;
-    padding: 10px 0;
+.sidebar {
+    padding-left: 0;
+    padding-right: 20px;
+
+    .homelink {
+        font-size: 1.5em;
+        padding: 10px 0;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
 }
 
 .formatted-page-content {
-    margin: 5px 0px 12px 20px;
+    background: #fff;
+    
+    margin: 5px 0px 12px 0px;
     padding: 5px 20px;
     border: 1px solid;
     
@@ -18,32 +31,41 @@
         color: maroon;
     }
     h2 {
+        padding-bottom: 4px;
         border-bottom: 1px solid;
+    }
+
+    p, table, ul, ol {
+        font-size: 16px;
+        font-family: Georgia, serif;
     }
 
     p {
         margin: 15px 0 15px 0;
-        font-size: 16px;
     }
+    
     table {
         margin: 15px 0 15px 0;
-        font-size: 16px;
         tr, td, th {
-            padding: 0 10px;
+            padding: 5px 15px;
         }
     }
 
     ul, ol {
-        font-size: 16px;
         margin-left: -20px;
     }
 
     ul {
         list-style: disc outside none;
     }
-
 }
 
-.wiki-sidebar aside {
-    margin: 5px 0;
+.show-page-controls {
+    padding: 10px 0;
+}
+
+.wikitext-edit {
+    textarea {
+        font-family: Menlo;
+    }
 }

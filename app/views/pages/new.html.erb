@@ -11,13 +11,11 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :wikitext, "Page contents" %>
+        <%= f.label :wikitext, "Page contents", class: "sr-only" %>
         <%= f.text_area :wikitext, class: "form-control", rows: 25 %>
       </div>
 
-      <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
-      <%= f.submit "Save and edit", name: "save_and_edit", class: "btn btn-primary btn-sm" %>
-      <%= link_to "Cancel", root_url, class: "btn btn-warning btn-sm" %>
+      <%= render "edit_controls" %>
     <% end %>
   </div>
 </div>

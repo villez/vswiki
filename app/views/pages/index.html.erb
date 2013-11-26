@@ -7,7 +7,9 @@
     
     <h1>VSWiki Home Page</h1>
     
-    <%= link_to "Create a new page", new_page_path, class: "btn btn-success" %>
+  <%= link_to new_page_path, class: "btn btn-default" do %>
+    <span class="glyphicon glyphicon-plus text-success"></span> Create a new page
+  <% end %>
     
   </div>
 </div>

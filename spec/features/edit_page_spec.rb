@@ -24,7 +24,7 @@ feature "Edit an existing page" do
 
   scenario "save and edit stores the current text and returns to editing" do
     fill_in "Page contents", with: "new text"
-    click_button "Save and edit"
+    click_button "Save & edit"
 
     expect(Page.find_by(wikititle: "SomePage").wikitext).to eq "new text"
     expect(page).to have_content("Editing")

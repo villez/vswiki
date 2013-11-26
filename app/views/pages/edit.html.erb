@@ -4,15 +4,15 @@
   <div class="col-xs 12 col-sm-12 col-md-12 col-lg12">
     <h1>Editing "<%= @page.title %>"</h1>
 
-    <%= form_for @page do |f| %>
-      <div class="form-group">
-        <%= f.label :wikitext, "Page contents" %>
-        <%= f.text_area :wikitext, class: "form-control", rows: 25 %>
-      </div>
-
-      <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
-      <%= f.submit "Save and edit", name: "save_and_edit", class: "btn btn-primary btn-sm" %>
-      <%= link_to "Cancel", @page, class: "btn btn-warning btn-sm" %>
-    <% end %>
+    <div class="wikitext-edit">
+      <%= form_for @page do |f| %>
+        <div class="form-group">
+          <%= f.label :wikitext, "Page contents", class: "sr-only" %>
+          <%= f.text_area :wikitext, class: "form-control", rows: 28 %>
+        </div>
+        
+        <%= render "edit_controls" %>
+      <% end %>
+    </div>
   </div>
 </div>

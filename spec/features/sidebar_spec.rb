@@ -8,26 +8,26 @@ feature "Sidebar" do
 
   scenario "show sidebar on the home page" do
     visit root_url
-    expect(page).to have_css("div.wiki-sidebar")
+    expect(page).to have_css("div.sidebar")
     expect(page).to have_content("this is the sidebar!")
   end
 
   scenario "show sidebar when viewing a wikipage" do
     visit page_path(a_page)
     expect(page).to have_content("some other page")
-    expect(page).to have_css("div.wiki-sidebar")
+    expect(page).to have_css("div.sidebar")
     expect(page).to have_link("Home")
     expect(page).to have_content("this is the sidebar!")
   end
 
   scenario "don't show sidebar when entering a new page" do
     visit new_page_path
-    expect(page).not_to have_css("div.wiki-sidebar")
+    expect(page).not_to have_css("div.sidebar")
   end
 
   scenario "don't show sidebar when editing a page" do
     visit edit_page_path(a_page)
-    expect(page).not_to have_css("div.wiki-sidebar")
+    expect(page).not_to have_css("div.sidebar")
   end
 
   scenario "edit page for the sidebar" do
@@ -47,7 +47,7 @@ feature "Sidebar" do
 
   scenario "sidebar's quick-go-to page miniform" do
     visit page_path(a_page)
-    within ".wiki-sidebar" do
+    within ".sidebar" do
       fill_in 'Go to page', with: "another page"
       click_button "Go"
     end
