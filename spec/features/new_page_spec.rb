@@ -32,7 +32,15 @@ feature "Create a New Page" do
     fill_in "Page title", with: "new page title"
     fill_in "Page contents", with: "new page contents"
     click_button "Save"
-    expect(page).to have_content("Title is already taken")
+    expect(page).to have_content("page with that title already exists")
+  end
+
+  scenario "when trying to save with existing title, link to the existing page" do
+    prev = Page.create(title: "NewPageTitle")
+    fill_in "Page title", with: "new page title"
+    fill_in "Page contents", with: "new page contents"
+    click_button "Save"
+    expect(page).to have_link("edit the existing page", href: edit_page_path(prev))
   end
 
   scenario "save and edit stores the current text and returns to editing" do

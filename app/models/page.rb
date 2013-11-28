@@ -2,8 +2,9 @@ require "#{Rails.root}/lib/vswiki/parser"
 
 class Page < ActiveRecord::Base
 
-  validates :title, presence: true
-  validates :wikititle, uniqueness: true
+  validates :title, presence: { message: "Cannot save with empty title" }
+  validates :wikititle, uniqueness: { message:
+    "page with that title already exists" }
 
   before_validation :build_wikititle
 
@@ -17,8 +18,8 @@ class Page < ActiveRecord::Base
     end
   end
 
-  def build_formatted_html
-    self.formatted_html = Vswiki::Parser.new.to_html(self.wikitext) if self.wikitext
+  def formatted_html
+     Vswiki::Parser.new.to_html(self.wikitext) if self.wikitext
   end
 
   def to_param

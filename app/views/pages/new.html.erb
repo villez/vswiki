@@ -6,6 +6,8 @@
 
     <%= form_for @page do |f| %>
       <div class="form-group">
+        <%= render "page_errors", page: f.object, prev_page: @prev_page %>
+        
         <%= f.label :title, "Page title" %>
         <%= f.text_field :title, required: true, class: "form-control" %>
       </div>
