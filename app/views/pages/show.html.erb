@@ -7,7 +7,7 @@
   <div class="col-xs-12 col-sm-10 page-content">
     <h1><%= @page.title %></h1>
 
-    <div class="show-page-controls-top">
+    <div id="top-controls">
       <%= render "show_controls" %>
     </div>
 
@@ -15,9 +15,11 @@
       <%= raw(@page.formatted_html) %>
     </div>
     
-    <div class="show-page-controls-bottom">
+    <div id="bottom-controls">
       <%= render "show_controls" %>
     </div>
+
+    <%= render "delete_confirm" %>
   </div>
 </div>
 

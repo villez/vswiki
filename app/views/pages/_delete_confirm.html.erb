@@ -1,0 +1,17 @@
+<div class="modal" id="delete-confirm" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm page deletion</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to remove the page <em><%= @page.title%></em>?</p>
+      </div>
+      <div class="modal-footer">
+        <%= button_tag "Cancel", type: "button", class: "btn btn-default", data: { dismiss: "modal" } %>
+        <%= link_to "Yes, delete!", @page, method: :delete, class: "btn btn-danger btn-sm" %>
+      </div>
+    </div>
+  </div>
+</div>

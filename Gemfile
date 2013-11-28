@@ -27,10 +27,11 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.14.0'
-  gem 'selenium-webdriver', '~> 2.35.1'
   gem 'capybara', '~> 2.1.0'
+  gem 'poltergeist', '~> 1.4.1'
   gem 'guard-rspec', '~> 4.0.3'
   gem 'launchy', '~> 2.3.0'
   gem 'shoulda-matchers', '~> 2.4.0'
   gem 'simplecov', require: false
+  gem 'database_cleaner', '~> 1.2.0'
 end
