@@ -196,8 +196,11 @@ module Vswiki
 
     def format_link(link_markup)
       linktext, linklabel = get_link_text_and_label(link_markup)
-      href = linktext.start_with?("http") ? linktext : make_wikititle(linktext)
-      make_tag(:a, linklabel, href: href)
+      if linktext.start_with?("http")
+        make_tag(:a, linklabel, href: linktext, target: "_blank")
+      else
+        make_tag(:a, linklabel, href: make_wikititle(linktext))
+      end
     end
 
     def get_link_text_and_label(link)

@@ -80,25 +80,25 @@ module Vswiki
       describe "bare external links" do
         it "creates an anchor tag for an external http link" do
           expect(parser.to_html("http://www.google.com")).
-            to eq "<p><a href=\"http://www.google.com\">http://www.google.com</a></p>\n"
+            to eq "<p><a href=\"http://www.google.com\" target=\"_blank\">http://www.google.com</a></p>\n"
         end
         it "creates an anchor tag for an external https link" do
           expect(parser.to_html("https://www.google.fi")).
-            to eq "<p><a href=\"https://www.google.fi\">https://www.google.fi</a></p>\n"
+            to eq "<p><a href=\"https://www.google.fi\" target=\"_blank\">https://www.google.fi</a></p>\n"
         end
       end
 
       describe "bracket-enclosed external links" do
         it "creates an anchor tag but doesn't capitalize" do
           expect(parser.to_html("[[http://www.google.com]]")).
-            to eq "<p><a href=\"http://www.google.com\">http://www.google.com</a></p>\n"
+            to eq "<p><a href=\"http://www.google.com\" target=\"_blank\">http://www.google.com</a></p>\n"
         end
       end
 
       describe "labeling external links" do
         it "creates an anchor tag with label as link text" do
         expect(parser.to_html("[[http://www.google.fi/|Google]]")).
-            to eq "<p><a href=\"http://www.google.fi/\">Google</a></p>\n"
+            to eq "<p><a href=\"http://www.google.fi/\" target=\"_blank\">Google</a></p>\n"
         end
       end
 
