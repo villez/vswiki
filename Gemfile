@@ -34,4 +34,5 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 2.4.0'
   gem 'simplecov', require: false
   gem 'database_cleaner', '~> 1.2.0'
+  gem 'quiet_assets'
 end
