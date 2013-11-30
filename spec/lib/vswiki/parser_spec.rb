@@ -18,23 +18,20 @@ module Vswiki
     end
 
 
-    # use \r\n for newlines in all the input examples, since that's what is
-    # getting submitted via the new/edit form by browsers
-    # the \r's are stripped by the parser, so none should appear in the outputs
-    describe "paragraphs based on blank lines (or end of string)" do
+    describe "paragraphs based on newlines (or end of string)" do
       it "creates paragraph tags for text surrounded by blank lines" do
-        expect(parser.to_html("first para\r\n\r\nsecond para\r\n\r\nthird para")).
+        expect(parser.to_html("first para\r\nsecond para\r\nthird para")).
           to eq "<p>first para</p>\n<p>second para</p>\n<p>third para</p>\n"
-      end
-
-      it "collects lines separated by single newline into a single paragraph" do
-        expect(parser.to_html("first line\r\nsecond line\r\nthird line")).
-          to eq"<p>first line\nsecond line\nthird line</p>\n"
       end
 
       # a basic example of input that has just \n for newlines to begin with
       it "creates paragraph tags for text surrounded by blank lines" do
-        expect(parser.to_html("first para\n\nsecond para\n\nthird para")).
+        expect(parser.to_html("first para\nsecond para\nthird para")).
+          to eq "<p>first para</p>\n<p>second para</p>\n<p>third para</p>\n"
+      end
+
+      it "removes extra newlines from the input" do
+        expect(parser.to_html("first para\r\n\r\nsecond para\r\n\r\n\r\n\r\nthird para\r\n\r\n")).
           to eq "<p>first para</p>\n<p>second para</p>\n<p>third para</p>\n"
       end
       
@@ -154,6 +151,15 @@ module Vswiki
             to eq("<ul><li>item 1</li><ol><li>item 1.1</li><ul><li>item 1.1.1</li></ul>\n</ol>\n<li>item 2</li></ul>\n")
         end
       end
+
+      describe "paragraph after list" do
+        it "can start a paragraph right after list with no blank line in between" do
+          expect(parser.to_html("* item 1\r\n##item 1.1\r\nparagraph text")).
+            to eq("<ul><li>item 1</li><ol><li>item 1.1</li></ol>\n</ul>\n<p>paragraph text</p>\n")
+          
+        end
+      end
+      
     end  # Lists
 
     describe "Preformatted Text" do
@@ -290,7 +296,13 @@ end
           expect(parser.to_html("|cell1a| |\n| |cell2b|")).
             to eq("<table><tr><td>cell1a</td><td></td></tr><tr><td></td><td>cell2b</td></tr></table>\n")
         end
-      end # basic table markup
+        
+        it "can start a paragraph right after a table with no blank line in between" do
+          expect(parser.to_html("|cell1a|cell1b|\r\n|cell2a|cell2b|\r\nparagraph text")).
+            to eq("<table><tr><td>cell1a</td><td>cell1b</td></tr><tr><td>cell2a</td><td>cell2b</td></tr></table>\n<p>paragraph text</p>\n")
+          
+        end
+      end
     end # Tables
 
     describe "Text Coloring" do

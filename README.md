@@ -29,9 +29,8 @@ engine at some point, though.
 
 Current markup features include:
 
- * paragraphs are indicated by blank lines in-between; consecutive
-   non-blank lines separated with only a single newline are
-   considered to be part of the same paragraph (may reconsider this)
+ * paragraphs are lines of text separated by newlines that don't have
+   any more specific markup described below
  * Headings: either `== Heading 2`,  `== Heading 2 ==`, or
   `!!Heading 2`
  * emphasized text with `''emphasis''`, strong text with

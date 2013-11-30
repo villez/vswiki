@@ -20,7 +20,7 @@ module Vswiki
     RE_HR = /\A\s*\-{4,}\s*#{RE_END_OF_LINE}/
 
     # paragraphs
-    RE_PARAGRAPH = /\A(.+?)#{RE_BLANK_LINE}/m
+    RE_PARAGRAPH = /\A(.+?)#{RE_END_OF_LINE}/
 
     # links & urls
     RE_VALID_URL_CHARS = /[A-Za-z0-9\-\._~:\/\?#\[\]@!$&'\(\)\*\+,;=]/
@@ -29,15 +29,18 @@ module Vswiki
     RE_BRACKETS = /[\[\]]/
 
     # ordered & unordered lists
-    RE_LI_PREFIX = /\A\s*([*#]+)\s*/
-    RE_LIST_BLOCK = /(#{RE_LI_PREFIX}(.*?))#{RE_BLANK_LINE}/m
+    RE_LI_PREFIX = /\A\s*([*#]+)/
+    RE_NON_LIST_LINE = /(?=\Z|(\n\s*[^*#]))/
+    RE_LIST_BLOCK = /#{RE_LI_PREFIX}(.*?)#{RE_NON_LIST_LINE}/m
+
 
     # fenced & inline code blocks
     RE_CODE_BLOCK = /\A\s*^`{3}(?<lang>\w+)?\n(?<preblock>.+?)^`{3}\s*#{RE_END_OF_LINE}/m
     RE_INLINE_CODE = /\A((`.*?`)|(@{2}.*?@{2}))/
 
     # tables
-    RE_TABLE_BLOCK = /(\A^\|(.*?)#{RE_BLANK_LINE})+/m
+    RE_NON_TABLE_LINE = /(?=\Z|(\n\s*[^|]))/
+    RE_TABLE_BLOCK = /\A^\|(.*?)#{RE_NON_TABLE_LINE}/m
     RE_TABLE_CELL_TEXT = /\|((\[\[.*?\]\]|[^|])+)(?=\||\z)/
 
     # inline emphasis & strong
@@ -88,15 +91,15 @@ module Vswiki
           heading_text = Regexp.last_match(2)
           output << make_tag("h#{heading_level}", heading_text)
         when RE_LIST_BLOCK
-          output << make_list(Regexp.last_match(1))
+          output << make_list(Regexp.last_match(0))
         when RE_TABLE_BLOCK
           output << make_tag(:table, parse_table(Regexp.last_match(0)))
         when RE_HR
           output << make_tag(:hr)
         when RE_PARAGRAPH
           output <<  make_tag(:p, parse_inline_markup(Regexp.last_match(1)))
-        else
-          output << wikitext
+        when RE_END_OF_LINE
+          # eat extra newlines in the input without outputting them
         end
 
         # in the next iteration, parse the remaining text not matched this time
