@@ -12,8 +12,36 @@ module Vswiki
         expect(parser.make_wikititle("normal string with whitespace")).to eq "NormalStringWithWhitespace"
       end
 
+      it "removes more than one space in a row" do
+        expect(parser.make_wikititle("a   very    sparse    string")).to eq "AVerySparseString"
+      end
+
       it "doesn't change the string when already in wikititle format" do
         expect(parser.make_wikititle("WikiTitleText")).to eq "WikiTitleText"
+      end
+
+      it "correctly upcases umlaut characters" do
+        expect(parser.make_wikititle("ööliä ääliö")).to eq "ÖöliäÄäliö"
+        expect(parser.make_wikititle("über alles")).to eq "ÜberAlles"
+        expect(parser.make_wikititle("åland öisin")).to eq "ÅlandÖisin"
+      end
+
+      it "removes punctuation but splits words on them" do
+        expect(parser.make_wikititle("foo: bar, baz: quux.")).to eq "FooBarBazQuux"
+        expect(parser.make_wikititle("foo:bar,baz:quux!")).to eq "FooBarBazQuux"
+      end
+
+      it "removes quotes and doesn't split the word on them" do
+        expect(parser.make_wikititle("it's foo's \"bar\"")).to eq "ItsFoosBar"
+      end
+
+      it "removes other special characters and doesn't split the word on them" do
+        expect(parser.make_wikititle("Foo#bar Baz/quux")).to eq "FoobarBazquux"
+      end
+
+      it "keeps dashes and underscores" do
+        expect(parser.make_wikititle("foo_bar")).to eq "Foo_bar"
+        expect(parser.make_wikititle("objective-C")).to eq "Objective-C"
       end
     end
 

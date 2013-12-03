@@ -1,9 +1,15 @@
+# -*- coding: utf-8 -*-
 require_relative './list_node'
-require 'active_support/core_ext'  # String#titleize
+require 'active_support/core_ext'  # String#blank?
 
 module Vswiki
   class Parser
-
+    WIKITITLE_WORD_BREAK_CHARS = /[.,:;!\?]/
+    WIKITITLE_ALLOWED_CHARS = /[A-za-z0-9üåäöæøëïÜÅÄÖÆØËÏ\-_ ]/
+    WIKITITLE_REMOVED_CHARS = /[^#{WIKITITLE_ALLOWED_CHARS}]/
+    UMLAUT_LOWERCASE = "üåäöæøëï"
+    UMLAUT_UPPERCASE = "ÜÅÄÖÆØËÏ"
+    
     SELF_CLOSING_TAGS = %i(br hr img)  # Ruby 2.0 array of symbols literal syntax
     BLOCK_TAGS = %i(h1 h2 h3 h4 h5 h6 p ul ol table pre hr)
 
@@ -58,7 +64,10 @@ module Vswiki
     # in the future, but ActiveSupport's titleize + whitespace
     # removal is a decent starting point
     def make_wikititle(str)
-      str.titleize.gsub(/\s+/, "") if str
+      return nil unless str
+
+      cleaned_str = replace_special_chars_for_wikititle(str)
+      cleaned_str.split.map { |word| capitalize_with_special_chars(word) }.join
     end
 
     # the main interface method for wikitext conversion to html
@@ -72,6 +81,18 @@ module Vswiki
 
 
     private
+
+    # helpers for making wikititles; handling special characters and
+    # capitalizing the most common umlaut characters
+
+    def replace_special_chars_for_wikititle(str)
+      str.gsub(/#{WIKITITLE_WORD_BREAK_CHARS}/, ' ').gsub(/#{WIKITITLE_REMOVED_CHARS}/, '')
+    end
+      
+    def capitalize_with_special_chars(word)
+      word[0] = word[0].upcase.tr(UMLAUT_LOWERCASE, UMLAUT_UPPERCASE)
+      word
+    end
 
     # the main parser loop
     #
