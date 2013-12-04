@@ -110,7 +110,7 @@ module Vswiki
         when RE_HEADING
           heading_level = Regexp.last_match(1).size
           heading_text = Regexp.last_match(2)
-          output << make_tag("h#{heading_level}", heading_text)
+          output << make_tag("h#{heading_level}", CGI::escapeHTML(heading_text))
         when RE_LIST_BLOCK
           output << make_list(Regexp.last_match(0))
         when RE_TABLE_BLOCK
@@ -150,7 +150,7 @@ module Vswiki
                                     style: "color: #{Regexp.last_match(1)};")
         when /[^`]|@[^@]+/
           # all the rest is output as-is - TBD: need to update when adding new inline markup
-          inline_output << Regexp.last_match(0)
+          inline_output << CGI::escapeHTML(Regexp.last_match(0))
         end
         wikitext = Regexp.last_match.post_match
       end

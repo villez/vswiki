@@ -129,8 +129,8 @@ module Vswiki
 
       describe "several links in single paragraph" do
         it "creates an anchor tag for each link within a paragraph" do
-          expect(parser.to_html("Here's [[one link]] and then [[another link]]")).
-            to eq "<p>Here's <a href=\"OneLink\">one link</a> and then <a href=\"AnotherLink\">another link</a></p>\n"
+          expect(parser.to_html("Here [[one link]] and then [[another link]]")).
+            to eq "<p>Here <a href=\"OneLink\">one link</a> and then <a href=\"AnotherLink\">another link</a></p>\n"
         end
       end
     end # Links
@@ -230,8 +230,8 @@ module Vswiki
         end
 
         it "allows single @'s in text without making a preformatted block" do
-          expect(parser.to_html("email test@example.com doesn't cause preformat")).
-            to eq("<p>email test@example.com doesn't cause preformat</p>\n")
+          expect(parser.to_html("email test@example.com does not cause preformat")).
+            to eq("<p>email test@example.com does not cause preformat</p>\n")
         end
       end
     end
@@ -250,8 +250,8 @@ module Vswiki
         end
 
         it "doesn't create an em tag if the '' is not closed" do
-          expect(parser.to_html("there's starting '' but no corresponding ending markup")).
-            to eq("<p>there's starting '' but no corresponding ending markup</p>\n")
+          expect(parser.to_html("starting '' but no corresponding ending markup")).
+            to eq("<p>starting &#39;&#39; but no corresponding ending markup</p>\n")
         end
       end
 
@@ -267,8 +267,8 @@ module Vswiki
         end
 
         it "doesn't create a strong tag if the ''' is not closed" do
-          expect(parser.to_html("there's starting ''' but no corresponding ending markup")).
-            to eq("<p>there's starting ''' but no corresponding ending markup</p>\n")
+          expect(parser.to_html("starting ''' but no corresponding ending markup")).
+            to eq("<p>starting &#39;&#39;&#39; but no corresponding ending markup</p>\n")
         end
 end
 
@@ -354,5 +354,39 @@ end
           to eq("<p>this <strong>strong text has <span style=\"color: green;\">some green text</span> within</strong></p>\n")
       end
     end
+
+    describe "escaping special HTML characters" do
+      it "escapes < and > within paragraphs" do
+        expect(parser.to_html("a > b or c < d")).to eq "<p>a &gt; b or c &lt; d</p>\n"
+      end
+      
+      it "escapes & within paragraphs" do
+        expect(parser.to_html("a && b || c && d")).to eq "<p>a &amp;&amp; b || c &amp;&amp; d</p>\n"
+      end
+
+      it "escapes special chars within emphasized or strong inline text" do
+        expect(parser.to_html("emphasized ''text with < and >''")).
+          to eq "<p>emphasized <em>text with &lt; and &gt;</em></p>\n"
+        expect(parser.to_html("strong '''text with < and >'''")).
+          to eq "<p>strong <strong>text with &lt; and &gt;</strong></p>\n"
+      end
+
+      it "escapes special chars within headers" do
+        expect(parser.to_html("!!!Section describing <ul> and <li>")).
+          to eq "<h3>Section describing &lt;ul&gt; and &lt;li&gt;</h3>\n"
+      end
+      
+      it "escapes special chars within list elements" do
+        expect(parser.to_html("* this is a <li> within an <ul>")).
+          to eq "<ul><li>this is a &lt;li&gt; within an &lt;ul&gt;</li></ul>\n"
+      end
+
+      it "escapes special chars within table cells" do
+        expect(parser.to_html("|a < b|c > d|\n|a & b|foo|")).
+          to eq "<table><tr><td>a &lt; b</td><td>c &gt; d</td></tr><tr><td>a &amp; b</td><td>foo</td></tr></table>\n"
+      end
+
+    end
+
   end
 end
