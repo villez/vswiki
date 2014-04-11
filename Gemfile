@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.1'
 
-gem 'rails', '4.0.4'
+gem 'rails', '4.1.0'
 
 # Use PostgreSQL both in development & production
 gem 'pg', '0.17.0'
@@ -31,7 +31,8 @@ group :development, :test do
   gem 'poltergeist', '~> 1.4.1'
   gem 'guard-rspec', '~> 4.0.3'
   gem 'launchy', '~> 2.3.0'
-  gem 'shoulda-matchers', '~> 2.4.0'
+  gem 'minitest'
+  gem 'shoulda-matchers', '~> 2.5.0'
   gem 'simplecov', require: false
   gem 'database_cleaner', '~> 1.2.0'
   gem 'quiet_assets'
