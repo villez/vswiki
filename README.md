@@ -52,8 +52,8 @@ Current markup features include:
 
 ## Tools & Dependencies
 
- * Rails 4.0
- * Ruby 2.0 (only a minor dependency with the new %i array of symbols syntax)
+ * Rails 4.1
+ * Ruby 2.1 (only a minor dependency with the new %i array of symbols syntax)
  * PostgreSQL for all environments (no strong dependency yet, but
    planning to use full text search later)
  * Bootstrap 3 for layout & styling
@@ -63,4 +63,4 @@ Current markup features include:
 
 ## Copyright & License
 
-(c) 2013 Ville Siltanen. MIT License.
+(c) 2013-2014 Ville Siltanen. MIT License.

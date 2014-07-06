@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.1.1'
+ruby '2.1.2'
 
-gem 'rails', '4.1.0'
+gem 'rails', '4.1.4'
 
 # Use PostgreSQL both in development & production
 gem 'pg', '0.17.0'
@@ -18,7 +18,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 # Bootstrap
-gem 'bootstrap-sass', '~> 3.0.2.1'
+gem 'bootstrap-sass', '~> 3.2.0'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
