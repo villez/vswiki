@@ -4,7 +4,7 @@ ruby '2.1.2'
 gem 'rails', '4.1.4'
 
 # Use PostgreSQL both in development & production
-gem 'pg', '0.17.0'
+gem 'pg', '0.17.1'
 
 # Thin instead of WEBRick in development
 gem 'thin'
@@ -23,6 +23,10 @@ gem 'bootstrap-sass', '~> 3.2.0'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
+end
+
+group :development do
+  gem 'spring', '~> 1.1.3'
 end
 
 group :development, :test do
