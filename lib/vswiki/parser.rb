@@ -223,7 +223,11 @@ module Vswiki
       if linktext.start_with?("http")
         make_tag(:a, linklabel, href: linktext, target: "_blank")
       else
-        make_tag(:a, linklabel, href: make_wikititle(linktext))
+        if Page.find_by(wikititle: linktext)
+          make_tag(:a, linklabel, href: make_wikititle(linktext))
+        else
+          make_tag(:a, linklabel, href: make_wikititle(linktext), class: "wikinoexist")
+        end
       end
     end
 
