@@ -17,4 +17,13 @@ feature "Wikilinks in page content" do
     click_link "first page"
     expect(page).to have_selector("h1", first_page.title)
   end
+
+  scenario "special CSS class for wikilinks to nonexisting pages" do
+    Page.create(title: "Existent", wikitext: "foo bar")
+    visit page_url(Page.create(title: "LinkTest", wikitext: "[[Existent]] [[Nonexistent]]"))
+    expect(page).to have_link("Nonexistent")
+    expect(page).to have_link("Existent")
+    expect(page).to have_css("a.wikinoexist", text: "Nonexistent")
+    expect(page).not_to have_css("a.wikinoexist", text: "Existent")
+  end
 end
