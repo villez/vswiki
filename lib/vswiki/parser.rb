@@ -59,7 +59,7 @@ module Vswiki
 
     # parameterize the method to check whether a wikilink
     # target exists; used to set a special class to the link tag
-    def initialize(link_checker=Page.method(:find_by))
+    def initialize(link_checker=Page.method(:page_exists?))
       @link_checker = link_checker
     end
 
@@ -228,7 +228,7 @@ module Vswiki
       if linktext.start_with?("http")
         make_tag(:a, linklabel, href: linktext, target: "_blank")
       else
-        if @link_checker.call(wikititle: linktext)
+        if @link_checker.call(linktext)
           make_tag(:a, linklabel, href: make_wikititle(linktext))
         else
           make_tag(:a, linklabel, href: make_wikititle(linktext), class: "wikinoexist")

@@ -8,6 +8,10 @@ class Page < ActiveRecord::Base
 
   before_validation :build_wikititle
 
+  def self.page_exists?(wikititle)
+    Page.find_by(wikititle: wikititle) != nil
+  end
+
   def self.make_wikititle(str)
     Vswiki::Parser.new.make_wikititle(str)
   end
@@ -25,4 +29,5 @@ class Page < ActiveRecord::Base
   def to_param
     wikititle
   end
+
 end
