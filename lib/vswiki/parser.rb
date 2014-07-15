@@ -57,8 +57,6 @@ module Vswiki
     # inline text coloring
     RE_TEXT_COLOR = /\A%(.+?)%(.+?)%%/
 
-    attr_writer :link_checker
-
     # parameterize the method to check whether a wikilink
     # target exists; used to set a special class to the link tag
     def initialize(link_checker=Page.method(:find_by))
