@@ -5,7 +5,9 @@ require_relative '../../../lib/vswiki/parser'
 module Vswiki
   describe Parser do
 
-    parser = Vswiki::Parser.new
+    # by default, make the link checker parameter always return true for
+    # most tests; separately test the false case
+    parser = Vswiki::Parser.new(Proc.new {true})
 
     describe "Wikititles" do
       it "creates wikititle from a normal string" do
@@ -91,14 +93,14 @@ module Vswiki
 
       describe "simple wikilinks" do
         it "creates an anchor tag for a wikilink" do
-          expect(parser.to_html( "[[some link]]")).to eq "<p><a href=\"SomeLink\" class=\"wikinoexist\">some link</a></p>\n"
+          expect(parser.to_html( "[[some link]]")).to eq "<p><a href=\"SomeLink\">some link</a></p>\n"
         end
       end
 
       describe "wikilink with label" do
         it "creates an anchor tag with label as link text" do
           expect(parser.to_html("[[some link|displayed text]]")).
-            to eq "<p><a href=\"SomeLink\" class=\"wikinoexist\">displayed text</a></p>\n"
+            to eq "<p><a href=\"SomeLink\">displayed text</a></p>\n"
         end
       end
 
@@ -130,9 +132,20 @@ module Vswiki
       describe "several links in single paragraph" do
         it "creates an anchor tag for each link within a paragraph" do
           expect(parser.to_html("Here [[one link]] and then [[another link]]")).
-            to eq "<p>Here <a href=\"OneLink\" class=\"wikinoexist\">one link</a> and then <a href=\"AnotherLink\" class=\"wikinoexist\">another link</a></p>\n"
+            to eq "<p>Here <a href=\"OneLink\">one link</a> and then <a href=\"AnotherLink\">another link</a></p>\n"
         end
       end
+
+      describe "wikilinks where the link target page does not exist" do
+        # instantiate a parser with link_checker always returning false to
+        # simulate the case where the linked page doesn't exist without having
+        # to call ActiveRecord and the actual database in the parser tests
+        noexist_parser = Vswiki::Parser.new(Proc.new {false})
+        it "adds a special class to wikilink anchor tags if the linked page does not exist" do
+          expect(noexist_parser.to_html( "[[some link]]")).to eq "<p><a href=\"SomeLink\" class=\"wikinoexist\">some link</a></p>\n"
+        end
+      end
+        
     end # Links
 
     describe "Lists" do
@@ -162,7 +175,7 @@ module Vswiki
 
         it "formats links in list elements" do
           expect(parser.to_html("* [[LinkHere]]\r\n* [[Link There]]")).
-            to eq("<ul><li><a href=\"LinkHere\" class=\"wikinoexist\">LinkHere</a></li><li><a href=\"LinkThere\" class=\"wikinoexist\">Link There</a></li></ul>\n")
+            to eq("<ul><li><a href=\"LinkHere\">LinkHere</a></li><li><a href=\"LinkThere\">Link There</a></li></ul>\n")
         end
       end
 
@@ -246,7 +259,7 @@ module Vswiki
 
         it "formats links within emphasized text" do
           expect(parser.to_html("''emphasized text with [[Link]]'' within")).
-            to eq("<p><em>emphasized text with <a href=\"Link\" class=\"wikinoexist\">Link</a></em> within</p>\n")
+            to eq("<p><em>emphasized text with <a href=\"Link\">Link</a></em> within</p>\n")
         end
 
         it "doesn't create an em tag if the '' is not closed" do
@@ -263,7 +276,7 @@ module Vswiki
 
         it "formats links within strong text" do
           expect(parser.to_html("'''strong text with [[Link]]''' within")).
-            to eq("<p><strong>strong text with <a href=\"Link\" class=\"wikinoexist\">Link</a></strong> within</p>\n")
+            to eq("<p><strong>strong text with <a href=\"Link\">Link</a></strong> within</p>\n")
         end
 
         it "doesn't create a strong tag if the ''' is not closed" do
@@ -280,7 +293,7 @@ end
 
         it "formats links within strong emphasis text" do
           expect(parser.to_html("'''''strong emphasis text with [[Link]]''''' within")).
-            to eq("<p><strong><em>strong emphasis text with <a href=\"Link\" class=\"wikinoexist\">Link</a></em></strong> within</p>\n")
+            to eq("<p><strong><em>strong emphasis text with <a href=\"Link\">Link</a></em></strong> within</p>\n")
         end
       end
 
@@ -312,12 +325,12 @@ end
 
         it "parses inline markup within table cells" do
           expect(parser.to_html("|cell1a|''cell1b''|\n|[[link]]|cell2b|")).
-            to eq("<table><tr><td>cell1a</td><td><em>cell1b</em></td></tr><tr><td><a href=\"Link\" class=\"wikinoexist\">link</a></td><td>cell2b</td></tr></table>\n")
+            to eq("<table><tr><td>cell1a</td><td><em>cell1b</em></td></tr><tr><td><a href=\"Link\">link</a></td><td>cell2b</td></tr></table>\n")
         end
 
         it "doesn't confuse labeled links cell borders" do
           expect(parser.to_html("|cell1a|''cell1b''|\n|link: [[link|label]]|cell2b|")).
-            to eq("<table><tr><td>cell1a</td><td><em>cell1b</em></td></tr><tr><td>link: <a href=\"Link\" class=\"wikinoexist\">label</a></td><td>cell2b</td></tr></table>\n")
+            to eq("<table><tr><td>cell1a</td><td><em>cell1b</em></td></tr><tr><td>link: <a href=\"Link\">label</a></td><td>cell2b</td></tr></table>\n")
         end
 
         it "handles empty cells" do

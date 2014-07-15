@@ -57,6 +57,13 @@ module Vswiki
     # inline text coloring
     RE_TEXT_COLOR = /\A%(.+?)%(.+?)%%/
 
+    attr_writer :link_checker
+
+    # parameterize the method to check whether a wikilink
+    # target exists; used to set a special class to the link tag
+    def initialize(link_checker=Page.method(:find_by))
+      @link_checker = link_checker
+    end
 
     # the interface method for converting a string to a wikititle
     #
@@ -223,7 +230,7 @@ module Vswiki
       if linktext.start_with?("http")
         make_tag(:a, linklabel, href: linktext, target: "_blank")
       else
-        if Page.find_by(wikititle: linktext)
+        if @link_checker.call(wikititle: linktext)
           make_tag(:a, linklabel, href: make_wikititle(linktext))
         else
           make_tag(:a, linklabel, href: make_wikititle(linktext), class: "wikinoexist")
