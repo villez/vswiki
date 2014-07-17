@@ -15,7 +15,7 @@ feature "Delete an existing page" do
     
     expect(page).not_to have_selector("#delete-confirm")
     within "#top-controls" do
-      click_button "Delete page"
+      click_button "Delete"
     end
     expect(page).to have_selector("#delete-confirm")
     within "#delete-confirm" do
