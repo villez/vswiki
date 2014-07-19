@@ -110,8 +110,8 @@ module Vswiki
         case wikitext
         when RE_CODE_BLOCK
           lang = Regexp.last_match(:lang)
-          opts = (lang ? { class: "language-#{lang}" } : {})
-          output << make_tag(:pre, make_tag(:code, Regexp.last_match(:preblock), opts))
+          output << make_tag(:pre, make_tag(:code, Regexp.last_match(:preblock),
+                                            (lang ? { class: "language-#{lang}" } : {})))
         when RE_HEADING
           heading_level = Regexp.last_match(1).size
           heading_text = Regexp.last_match(2)
@@ -188,8 +188,8 @@ module Vswiki
 
     def parse_table(wikitext)
       table_output = ""
-      tbl_rows = wikitext.split("\n")
-      tbl_rows.each do |tr|
+      table_rows = wikitext.split("\n")
+      table_rows.each do |tr|
         table_output << make_tag(:tr, parse_table_cells(tr))
       end
       table_output
@@ -197,8 +197,8 @@ module Vswiki
 
     def parse_table_cells(tr)
       tr_output = ""
-      tr_cells = get_table_cells(tr)
-      tr_cells.each do |cell_text|
+      table_cells = table_cells_from_row(tr)
+      table_cells.each do |cell_text|
         if cell_text.start_with?("!", "=")
           tr_output << make_tag(:th, parse_inline_markup(cell_text[1..-1]))
         else
@@ -208,7 +208,7 @@ module Vswiki
       tr_output
     end
 
-    def get_table_cells(tr)
+    def table_cells_from_row(tr)
       cells = []
       tr.scan(RE_TABLE_CELL_TEXT) { cells << Regexp.last_match(1) }
       cells
@@ -224,21 +224,21 @@ module Vswiki
     end
 
     def format_link(link_markup)
-      linktext, linklabel = get_link_text_and_label(link_markup)
-      if linktext.start_with?("http")
-        make_tag(:a, linklabel, href: linktext, target: "_blank")
+      link_info = link_text_and_label(link_markup)
+      if link_info[:text].start_with?("http")
+        make_tag(:a, link_info[:label], href: link_info[:text], target: "_blank")
       else
-        if @link_checker.call(linktext)
-          make_tag(:a, linklabel, href: make_wikititle(linktext))
+        if @link_checker.call(link_info[:text])
+          make_tag(:a, link_info[:label], href: make_wikititle(link_info[:text]))
         else
-          make_tag(:a, linklabel, href: make_wikititle(linktext), class: "wikinoexist")
+          make_tag(:a, link_info[:label], href: make_wikititle(link_info[:text]), class: "wikinoexist")
         end
       end
     end
 
-    def get_link_text_and_label(link)
+    def link_text_and_label(link)
       text, label = link.gsub(RE_BRACKETS, "").split("|")
-      [text, label || text]
+      { text: text, label: label || text }
     end
 
     def make_list(wikitext)
@@ -250,12 +250,12 @@ module Vswiki
       previous_node = root = ListNode.new("virtual root item", 0, nil)
 
       list_block.lines.each do |li|
-        li_type, li_level, li_text = parse_list_item(li)
-        next if li_type.nil?
+        list_item = parse_list_item(li)
+        next if list_item[:type] == nil
 
-        li_text = parse_inline_markup(li_text)
-        new_node = ListNode.new(li_text, li_level, li_type)
-        add_list_node(previous_node, new_node, li_level)
+        list_item[:text] = parse_inline_markup(list_item[:text])
+        new_node = ListNode.new(list_item[:text], list_item[:level], list_item[:type])
+        add_list_node(previous_node, new_node, list_item[:level])
         previous_node = new_node
       end
 
@@ -304,12 +304,12 @@ module Vswiki
       else
         # not a list element after all; just a safeguard, will not 
         # happen if the pattern matching works correctly 
-        return [nil, nil, nil]
+        return { type: nil, level: nil, text: nil }
       end
 
       level = li.match(RE_LI_PREFIX)[1].size   # count the *'s or #'s at the beginning
       stripped_text = li.gsub(RE_LI_PREFIX, "").strip
-      [type, level, stripped_text]
+      { type: type, level: level, text: stripped_text }
     end
   end
 end
