@@ -24,7 +24,12 @@ class PagesController < ApplicationController
   end
 
   def show
-    redirect_to new_page_path(title: params[:id]) unless @page
+    return redirect_to new_page_path(title: params[:id]) unless @page
+
+    if @page.redirect_to.present?
+      redirect_to page_path(Page.make_wikititle(@page.redirect_to)),
+      notice: redirect_message
+    end
   end
 
   def edit
@@ -58,7 +63,7 @@ class PagesController < ApplicationController
   end
 
   def page_params
-    params.require(:page).permit(:title, :wikitext)
+    params.require(:page).permit(:title, :wikitext, :redirect_to)
   end
 
   def redirect_to_show_or_edit
@@ -67,5 +72,9 @@ class PagesController < ApplicationController
     else
       redirect_to @page
     end
+  end
+
+  def redirect_message
+    view_context.raw("Redirected from #{view_context.link_to @page.title, edit_page_path(@page)}")
   end
 end
