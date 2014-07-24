@@ -26,6 +26,7 @@ module Vswiki
         expect(parser.make_wikititle("ööliä ääliö")).to eq "ÖöliäÄäliö"
         expect(parser.make_wikititle("über alles")).to eq "ÜberAlles"
         expect(parser.make_wikititle("åland öisin")).to eq "ÅlandÖisin"
+        expect(parser.make_wikititle("ÄäliöÄlälyö")).to eq "ÄäliöÄlälyö"
       end
 
       it "removes punctuation but splits words on them" do
