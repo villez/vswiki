@@ -9,7 +9,7 @@ class Page < ActiveRecord::Base
   before_validation :build_wikititle
 
   def self.page_exists?(wikititle)
-    Page.find_by(wikititle: wikititle) != nil
+    Page.exists?(wikititle: wikititle)
   end
 
   def self.make_wikititle(str)
