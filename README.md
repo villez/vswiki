@@ -4,7 +4,7 @@
 
 A personal wiki project. Because at the last count, there were only
 9999 different wiki implementations. And to try out the latest
-versions of various tools, mainly Rails 4.0 (see the full list
+versions of various tools, mainly Rails 4.x (see the full list
 below). **Note: in an early stage of development** - most likely won't
 fit anybody else's purposes than my own at this point, but you're of
 course free to take a look.
@@ -60,6 +60,36 @@ Current markup features include:
  * main testing tools: RSpec, capybara, poltergeist, database_cleaner, shoulda-matchers
  * additional testing utilities: guard, launchy, simplecov
 
+
+## Future Development
+
+These are just ideas, not an actual plan!
+
+ * planning to keep up with Rails upgrades, at least within 4.x
+ * implementing full text search, possibly with PostgreSQL
+ * investigating possibilities for configuring other markup parsers
+ * supporting image uploads (or other files)
+ * investigating implementing the markup parser with a proper grammar
+   instead of ad hoc regexes
+ * making sections/subsections of text "foldable" when displaying wiki pages
+ * supporting wiki page renaming; the tricky part is handling
+   any potential wikilinks in other pages that are referring to the
+   old name
+ * supporting templates for certain kinds of wiki pages
+ * more text formatting options: small text, super/subscripts, definition
+   lists
+ * possibility to add/configure custom markup options at runtime via configuration?
+ * investigate different wiki page versioning options; not a high
+   priority feature for me, but is a key wiki feature in general
+ * user settings?
+ * supporting themes and customization
+ * including wiki pages within other pages
+ * footnotes/references
+ * generating TOC for a wiki page (from section headers)
+ * implementing authentication and access control - again, not an
+   important feature for my own use case, but necessary in the general
+   case
+   
 
 ## Copyright & License
 
