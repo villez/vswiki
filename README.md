@@ -4,30 +4,37 @@
 
 A personal wiki project. Because at the last count, there were only
 9999 different wiki implementations. And to try out the latest
-versions of various tools, mainly Rails 4.x (see the full list
-below). **Note: in an early stage of development** - most likely won't
+versions of various tools, mainly Rails 4 (see the full list
+below).
+
+**Note: in an early stage of development** - most likely won't
 fit anybody else's purposes than my own at this point, but you're of
 course free to take a look.
 
 
 ## Features & Non-Features
 
-The target is not necessarily a "full-featured" wiki competing with
-MediaWiki and the other big boys; rather, will cherry-pick features
-based on which ones are useful and/or interesting to me in a *personal
-wiki* use case. The target usage environment is on a local machine in
-a restricted/controlled environment, such as a home network behind a
-firewall and with only trusted users. For example, currently not
+The target is not a "full-featured" wiki competing with MediaWiki and
+the other big names; rather, will cherry-pick features based on which
+ones are useful and/or interesting to me in a *personal wiki* use
+case. The target usage environment is on a local machine in a
+restricted/controlled environment, such as a home network behind a
+firewall and with only trusted users. For example, I'm currently not
 planning to implement user logins, authentication & authorization, and
 won't care that much about protecting from malicious user input
-either. May still include at least basic authetication features later.
+either. Some of these features may end up getting included later, but
+globally accessible multiuser environment is not the target
+environment for this project.
 
-The default wiki markup will also be a blend of Mediawiki, Creole,
+
+## Wiki Markup
+
+The default wiki markup is a blend of Mediawiki, Creole,
 Markdown, and some other markup languages, based on my own habits and
-tastes. Will possibly make it possible to switch the formatting/parser
-engine at some point, though. 
+tastes. It's possible that later on it'll become possible to switch
+the parser to another one, but not guaranteed.
 
-Current markup features include:
+The current markup spec is roughly as follows:
 
  * paragraphs are lines of text separated by newlines that don't have
    any more specific markup described below
@@ -52,11 +59,18 @@ Current markup features include:
 
 ## Tools & Dependencies
 
+In general, plan to keep up with the latest versions of tools,
+especially Ruby and Rails. Since this is an experimental project with
+no deployed base, will *not* put much effort into being backwards
+compatible with older versions.
+
+The main tool dependencies are:
+
  * Rails 4.1
  * Ruby 2.1 (only a minor dependency with the new %i array of symbols syntax)
- * PostgreSQL for all environments (no strong dependency yet, but
-   planning to use full text search later)
- * Bootstrap 3 for layout & styling
+ * PostgreSQL, including the development & testing environments (no
+   strong dependency yet, but may use e.g. full text search later)
+ * Bootstrap 3 for layout & styling (but subject to change later)
  * main testing tools: RSpec, capybara, poltergeist, database_cleaner, shoulda-matchers
  * additional testing utilities: guard, launchy, simplecov
 
