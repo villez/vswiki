@@ -36,25 +36,46 @@ the parser to another one, but not guaranteed.
 
 The current markup spec is roughly as follows:
 
+### Basic Text Formatting
+
  * paragraphs are lines of text separated by newlines that don't have
    any more specific markup described below
  * Headings: either `== Heading 2`,  `== Heading 2 ==`, or
   `!!Heading 2`
  * emphasized text with `''emphasis''`, strong text with
    `'''strong'''`, and strong + emphasis with `'''''very strong'''''`
- * Wikilinks with `[[wiki page|display label]]`
- * automatic recognition of bare http(s) links
- * unordered lists with 1 or more *'s and ordered lists with 1 or more
-   #'s; number of asterisks/hashes indicates the nesting level
- * can nest unordered lists within ordered lists and vice versa
- * tables with a block of `|table|rows|with|pipe|for|cell|separation|`
- * setting text color with `%green%this is colored%%`. The parameter
+ * setting text color with `%green%this is colored green%%`. The parameter
    accepts the same values as the CSS color property - color names,
    hex values, etc. 
- * preformatted code blocks with the same "fenced" syntax as
-   Github-flavored markdown
- * preformatted inline text with either single backquotes or @@text@@
  * horizontal rule with `----`
+ * preformatted inline text with either single backquotes or @@text@@
+ 
+### Internal and External Links
+
+ * Wikilinks with `[[wiki page|display label]]`
+ * automatic recognition of bare http(s) links
+
+### Block Formatting: Lists, Tables, 
+
+ * unordered lists with 1 or more *'s and ordered lists with 1 or more
+   #'s; number of asterisks/hashes indicates the nesting level
+ * can nest unordered lists within ordered lists and vice
+  * tables with a block of
+   `|table|rows|with|pipe|for|cell|separation|`; each line must start
+   with the `|` character to be considered part of the table  
+ * preformatted code blocks with the same "fenced" syntax as
+   Github-flavored markdown (but not necessarily all the same
+   features):
+
+```
+   ```ruby
+   def foo(a, b)
+     a + b * (a + b)
+   end
+   ```
+```
+ * syntax highlighting supported for some programming languages,
+   currently using Prism.js (http://prismjs.com/) 
 
 
 ## Tools & Dependencies
