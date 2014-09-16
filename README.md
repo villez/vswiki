@@ -64,19 +64,15 @@ The current markup spec is roughly as follows:
    `|table|rows|with|pipe|for|cell|separation|`; each line must start
    with the `|` character to be considered part of the table  
  * preformatted code blocks with the same "fenced" syntax as
-   Github-flavored markdown (but not necessarily all the same
-   features): block delimited by lines with three "`" characters, and the starting
-   delimiter may be followed with the name of the language in the code
-   block, e.g. ruby, but that's optional
-
-   ```ruby
-   def foo(a, b)
-     a + b * (a + b)
-   end
-   ```
-
- * syntax highlighting supported for some programming languages,
-   currently using Prism.js (http://prismjs.com/) 
+   Github-flavored markdown - see the description:
+   https://help.github.com/articles/github-flavored-markdown#fenced-code-blocks
+ * syntax highlighting supported for some programming languages for
+   fenced code blocks, again like in Github-flavored markdown:
+   https://help.github.com/articles/github-flavored-markdown#syntax-highlighting
+ * the syntax highlighter currently used is Prism.js
+   (http://prismjs.com/), which doesn't support quite as many
+   languages as some other highlighters; might be switched or made
+   configurable later on
 
 
 ## Tools & Dependencies
