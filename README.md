@@ -67,13 +67,12 @@ The current markup spec is roughly as follows:
    Github-flavored markdown (but not necessarily all the same
    features):
 
-```
    ```ruby
    def foo(a, b)
      a + b * (a + b)
    end
    ```
-```
+
  * syntax highlighting supported for some programming languages,
    currently using Prism.js (http://prismjs.com/) 
 
