@@ -65,9 +65,9 @@ The current markup spec is roughly as follows:
    with the `|` character to be considered part of the table  
  * preformatted code blocks with the same "fenced" syntax as
    Github-flavored markdown (but not necessarily all the same
-   features): block delimited by lines with "```", and the starting
+   features): block delimited by lines with three "`" characters, and the starting
    delimiter may be followed with the name of the language in the code
-   block, e.g. "```ruby", but that's optional
+   block, e.g. ruby, but that's optional
 
    ```ruby
    def foo(a, b)
