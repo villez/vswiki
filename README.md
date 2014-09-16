@@ -29,10 +29,23 @@ environment for this project.
 
 ## Wiki Markup
 
-The default wiki markup is a blend of Mediawiki, Creole,
-Markdown, and some other markup languages, based on my own habits and
-tastes. It's possible that later on it'll become possible to switch
-the parser to another one, but not guaranteed.
+The default wiki markup is a blend of Mediawiki, Creole, Markdown, and
+some other markup languages, based on my own habits and
+preferences. Full-blown NIH syndrome in action. Obviously it'd be
+simpler and more "portable" to just use one of the existing specs and
+parsers as-is, but this is a personal hobby project, and figuring out
+how to specify and implement the markup part is one of the more
+interesting aspects.
+
+It's possible that later on switching the markup language/parser to
+another one becomes a feature, or just adopting an existing language,
+but that's not currently planned. The markup part of the application
+is already decently well isolated from the CRUD part of the wiki
+functionality, so this should not pose a major technical challenge,
+although some adapter type of stuff between different parser
+interfaces etc. would probably be necessary. Actually the biggest
+dependency at the moment is probably in the integration/feature tests,
+which assume certain HTML output based on certain markup input.
 
 The current markup spec is roughly as follows:
 
