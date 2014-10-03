@@ -5,26 +5,26 @@
 A personal wiki project. Because at the last count, there were only
 9999 different wiki implementations. And to try out the latest
 versions of various tools, mainly Rails 4 (see the full list
-below).
+below) and some interesting techniques.
 
 **Note: in an early stage of development** - most likely won't
 fit anybody else's purposes than my own at this point, but you're of
 course free to take a look.
 
 
-## Features & Non-Features
+## Scope and Non-Scope
 
-The target is not a "full-featured" wiki competing with MediaWiki and
-the other big names; rather, will cherry-pick features based on which
-ones are useful and/or interesting to me in a *personal wiki* use
-case. The target usage environment is on a local machine in a
+The current target is not a "full-featured" wiki on par with MediaWiki
+etc. Rather, the idea is to cherry-pick features based on which ones
+are useful and/or interesting to me in a *personal wiki* use case. The
+target usage environment is on a local machine in a
 restricted/controlled environment, such as a home network behind a
 firewall and with only trusted users. For example, I'm currently not
 planning to implement user logins, authentication & authorization, and
 won't care that much about protecting from malicious user input
-either. Some of these features may end up getting included later, but
-globally accessible multiuser environment is not the target
-environment for this project.
+either, beyond what normal Rails best practices provide. Some of these
+features may end up getting included later, but globally accessible
+multiuser environment is not the target environment for this project.
 
 
 ## Wiki Markup
