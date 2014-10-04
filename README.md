@@ -103,7 +103,7 @@ The main tool dependencies are:
    strong dependency yet, but may use e.g. full text search later)
  * Bootstrap 3 for layout & styling (but subject to change later)
  * main testing tools: RSpec, capybara, poltergeist, database_cleaner, shoulda-matchers
- * additional testing utilities: guard, launchy, simplecov
+ * additional utilities: launchy, simplecov
 
 
 ## Future Development
