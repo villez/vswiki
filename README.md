@@ -98,17 +98,21 @@ compatible with older versions.
 The main tool dependencies are:
 
  * Rails 4.1
- * Ruby 2.1 (only a minor dependency with the new %i array of symbols syntax)
- * PostgreSQL, including the development & testing environments (no
-   strong dependency yet, but may use e.g. full text search later)
- * Bootstrap 3 for layout & styling (but subject to change later)
+ * Ruby 2.1 - only a minor dependency with the new %i array of symbols
+   syntax, otherwise 2.0 should work as well, but not planning to
+   support at the moment
+ * PostgreSQL, including the development & testing environments; no
+   strong dependency yet, but may use e.g. PostgreSQL full text search later
+ * Bootstrap 3 for layout & styling; subject to change later
  * main testing tools: RSpec, capybara, poltergeist, database_cleaner, shoulda-matchers
- * additional utilities: launchy, simplecov
+ * additional dev & test utilities: launchy, simplecov
 
 
 ## Future Development
 
-These are just ideas, not an actual plan!
+Current ideas for future development. There's not an actual detailed
+plan or commitment to implement any of these, and the list is in more
+or less random order, not reflecting schedule or priority.
 
  * planning to keep up with Rails upgrades, at least within 4.x
  * implementing full text search, possibly with PostgreSQL
