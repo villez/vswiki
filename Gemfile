@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.2'
 
-gem 'rails', '4.1.6'
+gem 'rails', '4.1.7'
 
 # Use PostgreSQL both in development & production
 gem 'pg', '0.17.1'
