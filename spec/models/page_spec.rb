@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Page do
+describe Page, :type => :model do
 
   let(:wikipage) { Page.new(title: "Test page with a few words", wikitext: "testing basic model") }
 
