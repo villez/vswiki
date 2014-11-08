@@ -38,7 +38,7 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 2.5.0', require: false
   gem 'simplecov', require: false
   gem 'database_cleaner', '~> 1.2.0'
-  gem 'quiet_assets'
+  gem 'quiet_assets', '~> 1.0.3'
 end
 
 # Capistrano for deployment
