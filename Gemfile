@@ -36,7 +36,7 @@ group :development, :test do
   gem 'poltergeist', '~> 1.5.1'
   gem 'launchy', '~> 2.3.0'
   gem 'shoulda-matchers', '~> 2.5.0', require: false
-  gem 'simplecov', require: false
+  gem 'simplecov', '~> 0.9.1', require: false
   gem 'database_cleaner', '~> 1.2.0'
   gem 'quiet_assets', '~> 1.0.3'
 end
