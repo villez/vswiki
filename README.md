@@ -104,8 +104,8 @@ The main tool dependencies are:
  * PostgreSQL, including the development & testing environments; no
    strong dependency yet, but may use e.g. PostgreSQL full text search later
  * Bootstrap 3 for layout & styling; subject to change later
- * main testing tools: RSpec, capybara, poltergeist, database_cleaner, shoulda-matchers
- * additional dev & test utilities: launchy, simplecov
+ * main testing tools: RSpec 3, Capybara, Poltergeist, database_cleaner, shoulda-matchers
+ * additional dev & test utilities: launchy, SimpleCov
 
 
 ## Future Development
