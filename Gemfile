@@ -35,8 +35,7 @@ group :development, :test do
   gem 'capybara', '~> 2.4.4'
   gem 'poltergeist', '~> 1.5.1'
   gem 'launchy', '~> 2.3.0'
-  gem 'minitest'
-  gem 'shoulda-matchers', '~> 2.5.0'
+  gem 'shoulda-matchers', '~> 2.5.0', require: false
   gem 'simplecov', require: false
   gem 'database_cleaner', '~> 1.2.0'
   gem 'quiet_assets'
