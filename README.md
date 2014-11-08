@@ -90,22 +90,23 @@ The current markup spec is roughly as follows:
 
 ## Tools & Dependencies
 
-In general, plan to keep up with the latest versions of tools,
-especially Ruby and Rails. Since this is an experimental project with
-no deployed base, will *not* put much effort into being backwards
-compatible with older versions.
+Currently this is an experimental project with no deployed base, and
+the general plan to keep up with the latest versions of tools,
+especially Ruby and Rails, but also the testing tools etc. This means
+I will *not* put much effort into being backwards compatible with
+older versions; rather, will lean towards quick upgrades and use the
+project as a test ground for the needed changes for new versions.
 
-The main tool dependencies are:
+The main dependencies and tools are:
 
  * Rails 4.1
- * Ruby 2.1 - only a minor dependency with the new %i array of symbols
-   syntax, otherwise 2.0 should work as well, but not planning to
-   support at the moment
+ * Ruby 2.1 (though only a minor dependency with the new %i array of symbols
+   syntax, otherwise 2.0 should work as well)
  * PostgreSQL, including the development & testing environments; no
    strong dependency yet, but may use e.g. PostgreSQL full text search later
- * Bootstrap 3 for layout & styling; subject to change later
+ * Bootstrap 3 for layout & styling
  * main testing tools: RSpec 3, Capybara, Poltergeist, database_cleaner, shoulda-matchers
- * additional dev & test utilities: launchy, SimpleCov
+ * additional dev & test utilities: launchy, SimpleCov, quiet_assets
 
 
 ## Future Development
