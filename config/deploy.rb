@@ -1,4 +1,4 @@
-require './deploy-private'
+require_relative './deploy-private.rb'
 
 # config valid only for Capistrano 3.1
 lock '3.1.0'
