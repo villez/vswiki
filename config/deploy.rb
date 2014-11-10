@@ -1,7 +1,6 @@
 require_relative './deploy-private.rb'
 
-# config valid only for Capistrano 3.1
-lock '3.1.0'
+lock '3.2.1'
 
 set :application, 'vswiki'
 
@@ -21,7 +20,7 @@ set :format, :pretty
 set :log_level, :debug
 
 # Default value for :pty is false
-set :pty, true
+# set :pty, true
 
 # Default value for :linked_files is []
 set :linked_files, %w{config/database.yml}
