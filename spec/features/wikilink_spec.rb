@@ -19,11 +19,11 @@ feature "Wikilinks in page content" do
   end
 
   scenario "special CSS class for wikilinks to nonexisting pages" do
-    Page.create(title: "Existent", wikitext: "foo bar")
-    visit page_url(Page.create(title: "LinkTest", wikitext: "[[Existent]] [[Nonexistent]]"))
+    Page.create(title: "Existent Page", wikitext: "foo bar")
+    visit page_url(Page.create(title: "LinkTest", wikitext: "[[Existent Page]] [[Nonexistent Page]]"))
     expect(page).to have_link("Nonexistent")
-    expect(page).to have_link("Existent")
-    expect(page).to have_css("a.wikinoexist", text: "Nonexistent")
-    expect(page).not_to have_css("a.wikinoexist", text: "Existent")
+    expect(page).to have_link("Existent Page")
+    expect(page).to have_css("a.wikinoexist", text: "Nonexistent Page")
+    expect(page).not_to have_css("a.wikinoexist", text: "Existent Page")
   end
 end
