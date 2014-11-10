@@ -19,6 +19,10 @@
 # ignore SimpleCov results
 coverage/
 
+# ignore private deployment files
+/config/deploy-private.rb
+/config/deploy/*
+
 # and these too
 doc/
 *~
