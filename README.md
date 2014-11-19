@@ -7,9 +7,9 @@ A personal wiki project. Because at the last count, there were only
 versions of various tools, mainly Rails 4 (see the full list
 below) and some interesting techniques.
 
-**Note: in an early stage of development** - most likely won't
-fit anybody else's purposes than my own at this point, but you're of
-course free to take a look.
+**Note: the project is in an early stage of development** - most
+likely won't fit anybody else's purposes than my own at this point,
+but you're of course welcome to take a look.
 
 
 ## Scope and Non-Scope
@@ -20,44 +20,48 @@ are useful and/or interesting to me in a *personal wiki* use case. The
 target usage environment is on a local machine in a
 restricted/controlled environment, such as a home network behind a
 firewall and with only trusted users. For example, I'm currently not
-planning to implement user logins, authentication & authorization, and
-won't care that much about protecting from malicious user input
-either, beyond what normal Rails best practices provide. Some of these
-features may end up getting included later, but globally accessible
-multiuser environment is not the target environment for this project.
+planning to implement user logins, authentication &
+authorization. Some of these features may end up getting included
+later, but globally accessible multiuser environment is currently not
+the target environment for this project.
 
 
 ## Wiki Markup
 
+### Rationale
+
 The default wiki markup is a blend of Mediawiki, Creole, Markdown, and
 some other markup languages, based on my own habits and
-preferences. Full-blown NIH syndrome in action. Obviously it'd be
-simpler and more "portable" to just use one of the existing specs and
-parsers as-is, but this is a personal hobby project, and figuring out
-how to specify and implement the markup part is one of the more
-interesting aspects.
+preferences. In other words, full-blown NIH syndrome in
+action. Obviously it'd be simpler and more "portable" (from the user's
+perspective) to just use one of the existing wiki markup
+specifications and parsers as-is, but this is a personal hobby
+project, and figuring out how to specify and implement the markup part
+is one of the more interesting aspects.
 
 It's possible that later on switching the markup language/parser to
-another one becomes a feature, or just adopting an existing language,
-but that's not currently planned. The markup part of the application
-is already decently well isolated from the CRUD part of the wiki
-functionality, so this should not pose a major technical challenge,
-although some adapter type of stuff between different parser
-interfaces etc. would probably be necessary. Actually the biggest
-dependency at the moment is probably in the integration/feature tests,
-which assume certain HTML output based on certain markup input.
+another one becomes a feature, or maybe I'll just adopt an existing
+language, but that's not currently planned. The markup part of the
+application is already decently well isolated from the CRUD part of
+the wiki functionality, so this should not pose a major technical
+challenge, although some adapter functionality between different
+parser interfaces etc. would probably be necessary in the case of
+supporting several different markup engines. Actually the biggest
+dependency on the current home-grown markup is currently in the
+integration/feature tests, which assume certain HTML output based on
+certain markup input.
 
 The current markup spec is roughly as follows:
 
 ### Basic Text Formatting
 
- * paragraphs are lines of text separated by newlines that don't have
+ * paragraphs are lines of text separated by newlines and which don't have
    any more specific markup described below
- * Headings: either `== Heading 2`,  `== Heading 2 ==`, or
-  `!!Heading 2`
- * emphasized text with `''emphasis''`, strong text with
+ * Headings: either `= Heading 1`,  `== Heading 2 ==`, or
+  `!!!Heading 3`
+ * emphasized (italics) text with `''emphasis''`, strong (bold) text with
    `'''strong'''`, and strong + emphasis with `'''''very strong'''''`
- * setting text color with `%green%this is colored green%%`. The parameter
+ * setting text color with `%green%this is green text%%`. The parameter
    accepts the same values as the CSS color property - color names,
    hex values, etc. 
  * horizontal rule with `----`
@@ -65,17 +69,18 @@ The current markup spec is roughly as follows:
  
 ### Internal and External Links
 
- * Wikilinks with `[[wiki page|display label]]`
+ * Wikilinks (links to other pages in the same wiki) with `[[wiki page|display label]]`
  * automatic recognition of bare http(s) links
+ * external links with labeling: `[[http://example.com|display label]]`
 
 ### Block Formatting: Lists, Tables, 
 
- * unordered lists with 1 or more *'s and ordered lists with 1 or more
-   #'s; number of asterisks/hashes indicates the nesting level
- * can nest unordered lists within ordered lists and vice
+ * unordered lists with one or more `*`'s and ordered lists with one or more
+   `#`'s; the number of asterisks/hashes indicates the nesting level
+ * can nest unordered lists within ordered lists and vice versa
  * tables with a block of
    `|table|rows|with|pipe|for|cell|separation|`; each line must start
-   with the `|` character to be considered part of the table  
+   with the `|` character to be considered part of the table
  * preformatted code blocks with the same "fenced" syntax as
    Github-flavored markdown - see the description:
    https://help.github.com/articles/github-flavored-markdown#fenced-code-blocks
@@ -83,44 +88,46 @@ The current markup spec is roughly as follows:
    fenced code blocks, again like in Github-flavored markdown:
    https://help.github.com/articles/github-flavored-markdown#syntax-highlighting
  * the syntax highlighter currently used is Prism.js
-   (http://prismjs.com/), which doesn't support quite as many
-   languages as some other highlighters; might be switched or made
-   configurable later on
+   (http://prismjs.com/); I like it's design, but it doesn't support
+   nearly as many languages as some other highlighters, such as
+   pygments; might be switched or made configurable later on
 
 
 ## Tools & Dependencies
 
-Currently this is an experimental project with no deployed base, and
-the general plan to keep up with the latest versions of tools,
-especially Ruby and Rails, but also the testing tools etc. This means
-I will *not* put much effort into being backwards compatible with
-older versions; rather, will lean towards quick upgrades and use the
-project as a test ground for the needed changes for new versions.
+As mentioned at the beginning, currently this is an experimental hobby
+project. There's no deployed base outside of my own. Thus the general
+plan to keep up with the latest versions of tools, especially Ruby and
+Rails, but also the testing tools and other utilities. This means I
+will *not* put much effort into being backwards compatible with older
+versions; rather, will lean towards quick upgrades and use the project
+as a testing ground for the upgrades themselves to see what's required.
 
 The main dependencies and tools are:
 
  * Rails 4.1
- * Ruby 2.1 (though only a minor dependency with the new %i array of symbols
-   syntax, otherwise 2.0 should work as well)
+ * Ruby 2.1 (in practice only a minor dependency with the new %i array of symbols
+   syntax, but not testing with 2.0 or older)
  * PostgreSQL, including the development & testing environments; no
    strong dependency yet, but may use e.g. PostgreSQL full text search later
- * Bootstrap 3 for layout & styling
+ * Bootstrap 3 for layout & styling (quite possibly will change later)
  * main testing tools: RSpec 3, Capybara, Poltergeist, database_cleaner, shoulda-matchers
  * additional dev & test utilities: launchy, SimpleCov, quiet_assets
 
 
 ## Future Development
 
-Current ideas for future development. There's not an actual detailed
-plan or commitment to implement any of these, and the list is in more
-or less random order, not reflecting schedule or priority.
+This is just a list of ideas. There's no actual plan, schedule or
+commitment to implement any of these, and the list is in more or less
+random order.
 
- * planning to keep up with Rails upgrades, at least within 4.x
- * implementing full text search, possibly with PostgreSQL
+ * keeping up with Rails upgrades, at least within 4.x
+ * implementing full text search, possibly with PostgreSQL, but
+   investigate other alternatives 
  * investigating possibilities for configuring other markup parsers
- * supporting image uploads (or other files)
+ * supporting image uploads, then any arbitrary files
  * investigating implementing the markup parser with a proper grammar
-   instead of ad hoc regexes
+   and parser generator instead of ad hoc regexes
  * making sections/subsections of text "foldable" when displaying wiki pages
  * supporting wiki page renaming; the tricky part is handling
    any potential wikilinks in other pages that are referring to the
