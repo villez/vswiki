@@ -16,6 +16,11 @@ class Page < ActiveRecord::Base
     Vswiki::Parser.new.make_wikititle(str)
   end
 
+  def self.fetch_sidebar
+    Page.find_by(wikititle: "Sidebar") ||
+      Page.create(title: "Sidebar", wikitext: "!!!Sidebar\nDefault sidebar")
+  end
+  
   def build_wikititle
     if self.title
       self.wikititle = Page.make_wikititle(self.title)

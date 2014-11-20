@@ -58,8 +58,7 @@ class PagesController < ApplicationController
   end
 
   def get_sidebar
-    @sidebar = Page.find_by(wikititle: "Sidebar") ||
-      Page.create(title: "Sidebar", wikitext: "!!!Sidebar\nDefault sidebar")
+    @sidebar = Page.fetch_sidebar
   end
 
   def page_params
