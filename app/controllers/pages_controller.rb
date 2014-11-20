@@ -79,6 +79,6 @@ class PagesController < ApplicationController
   end
 
   def redirect_message
-    view_context.raw("Redirected from #{view_context.link_to @page.title, edit_page_path(@page)}")
+    "Redirected from #{view_context.link_to @page.title, edit_page_path(@page)}"
   end
 end
