@@ -28,7 +28,7 @@ class PagesController < ApplicationController
 
     if @page.redirect_to.present?
       redirect_to(page_path(to_wikititle(@page.redirect_to)),
-                  flash: {info: redirect_message})
+                  flash: {info: wiki_redirection_message})
     end
   end
 
@@ -66,18 +66,14 @@ class PagesController < ApplicationController
   end
 
   def redirect_to_show_or_keep_editing
-    if params[:save_and_edit]
-      render "edit"
-    else
-      redirect_to @page
-    end
+    params[:save_and_edit] ? render(:edit) : redirect_to(@page)
   end
 
   def to_wikititle(text)
     Page.make_wikititle(text)
   end
 
-  def redirect_message
+  def wiki_redirection_message
     "Redirected from #{view_context.link_to @page.title, edit_page_path(@page)}"
   end
 end
