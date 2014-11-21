@@ -2,9 +2,9 @@ require "#{Rails.root}/lib/vswiki/parser"
 
 class Page < ActiveRecord::Base
 
-  validates :title, presence: { message: "Cannot save with empty title" }
+  validates :title, presence: { message: "Cannot save a page with an empty title" }
   validates :wikititle, uniqueness: { message:
-    "page with that title already exists" }
+    "A page with that title already exists" }
 
   before_validation :build_wikititle
 

@@ -24,7 +24,7 @@ feature "Create a New Page" do
 
   scenario "return to form and show error when title missing" do
     click_button "Save"
-    expect(page).to have_content("Cannot save with empty title")
+    expect(page).to have_content("Cannot save a page with an empty title")
   end
 
   scenario "return to form and show error when title already taken" do

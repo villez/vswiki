@@ -8,7 +8,7 @@
     <% end %>
     <ul>
       <% page.errors.messages.each do |attribute, error| %>
-	<li><%= raw(make_error_display_string(error)) %></li>
+	<li><%= make_error_display_string(error) %></li>
       <% end %>
     </ul>
   </div>
