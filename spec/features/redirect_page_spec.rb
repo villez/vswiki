@@ -5,6 +5,15 @@ feature "Set a page to redirect to another page" do
   let!(:target_page) { Page.create(title: "the target", wikitext: "target page contents") }
   let!(:redirector) { Page.create(title: "redirector", redirect_to: "the target") }
 
+  scenario "redirect field hidden on new page form by default", js: true do
+    visit new_page_path
+    expect(page).not_to have_selector("#redirect")
+    click_link "Add redirect"
+    expect(page).to have_selector("#redirect")
+    click_link "Hide redirect"
+    expect(page).not_to have_selector("#redirect")    
+  end
+
   scenario "create a new page with redirect" do
     visit new_page_path
     fill_in "Page title", with: "redirecting page"

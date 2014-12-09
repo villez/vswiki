@@ -12,14 +12,17 @@
         <%= f.text_field :title, required: true, class: "form-control" %>
       </div>
 
-      <div class="form-group">
+      <%= link_to "Add redirect", "#", id: "show-redirect" %>
+      <%= link_to "Hide redirect", "#", id: "hide-redirect" %>
+            
+      <div class="form-group" id="redirect">
         <%= f.label :redirect_to, "Redirect to" %>
         <%= f.text_field :redirect_to, class: "form-control" %>
       </div>
       
       <div class="form-group wikitext-edit">
-        <%= f.label :wikitext, "Page contents", class: "sr-only" %>
-        <%= f.text_area :wikitext, class: "form-control", rows: 25 %>
+        <%= f.label :wikitext, "Page contents" %>
+        <%= f.text_area :wikitext, class: "form-control", rows: 23 %>
       </div>
       
       <%= render "edit_controls" %>
