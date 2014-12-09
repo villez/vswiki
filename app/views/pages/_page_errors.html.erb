@@ -1,11 +1,8 @@
 <% if page.errors.any? %>
   <div class="alert alert-danger">
-    There 
-    <% if page.errors.count == 1 %>
-      was a problem:
-    <% else %>
-      were <%= pluralize(page.errors.count, "problem") %>:
-    <% end %>
+    There <% if page.errors.count == 1 %>was a<% else %> were<% end %>
+    <%= pluralize(page.errors.count, "problem") %>:
+    
     <ul>
       <% page.errors.messages.each do |attribute, error| %>
 	<li><%= make_error_display_string(error) %></li>
