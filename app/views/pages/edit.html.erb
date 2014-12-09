@@ -5,14 +5,12 @@
     <h1>Editing "<%= @page.title %>"</h1>
 
     <%= form_for @page do |f| %>
-      <div class="form-group" id="redirect">
-        <%= f.label :redirect_to, "Redirect to" %>
-        <%= f.text_field :redirect_to, class: "form-control" %>
-      </div>
+
+      <%= render "redirect_field", f: f %>
       
       <div class="form-group wikitext-edit">
-        <%= f.label :wikitext, "Page contents", class: "sr-only" %>
-        <%= f.text_area :wikitext, class: "form-control", rows: 28 %>
+        <%= f.label :wikitext, "Page contents" %>
+        <%= f.text_area :wikitext, class: "form-control", rows: 27 %>
       </div>
       
         <%= render "edit_controls" %>

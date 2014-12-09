@@ -80,9 +80,10 @@ body {
     margin-top: 20px;
 }
 
-#redirect {
-    display: none;
+#show-redirect {
+    display: block;
 }
+#redirect,
 #hide-redirect {
     display: none;
 }
