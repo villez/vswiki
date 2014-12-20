@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
-  before_filter :get_page, only: [:show, :edit, :update, :destroy]
-  before_filter :get_sidebar, only: [:show, :index]
+  before_action :get_page, only: [:show, :edit, :update, :destroy]
+  before_action :get_sidebar, only: [:show, :index]
 
   def index
     if params[:go_to_page]
