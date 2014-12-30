@@ -7,9 +7,10 @@ A personal wiki project. Because at the last count, there were only
 versions of various tools, mainly Rails 4 (see the full list
 below) and some interesting techniques.
 
-**Note: the project is in an early stage of development** - most
-likely won't fit anybody else's purposes than my own at this point,
-but you're of course welcome to take a look.
+*Note: the project is in a relatively early stage of development* and
+sporadically updated based on my own interest, time, and needs. It's
+unlikey to fit anyone else's purposes at this point, but you're of
+course welcome to take a look.
 
 
 ## Scope and Non-Scope
@@ -114,6 +115,10 @@ The main dependencies and tools are:
  * Bootstrap 3 for layout & styling (quite possibly will change later)
  * main testing tools: RSpec 3, Capybara, Poltergeist, database_cleaner, shoulda-matchers
  * additional dev & test utilities: launchy, SimpleCov, quiet_assets
+ * Capistrano 3 set up for deployment; private deployment details not
+   included in the public repo. The app doesn't contain anything
+   special why other deployment methods (such as Git deployment to Heroku) wouldn't work, but they
+   haven't been set up or tested.
 
 
 ## Future Development
