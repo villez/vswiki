@@ -105,9 +105,10 @@ as a testing ground for the upgrades themselves to see what's required.
 
 The main dependencies and tools are:
 
- * Rails 4.1
- * Ruby 2.1 (in practice only a minor dependency with the new %i array of symbols
-   syntax, but not testing with 2.0 or older)
+ * Rails 4.2 - no strong feature dependency, just keeping up with the latest
+   in order to see what's in there and how the migration works
+ * Ruby 2.x - again, only a minor technical dependency but want to
+   keep up with the latest
  * PostgreSQL, including the development & testing environments; no
    strong dependency yet, but may use e.g. PostgreSQL full text search later
  * Bootstrap 3 for layout & styling (quite possibly will change later)
@@ -132,7 +133,8 @@ random order.
  * supporting wiki page renaming; the tricky part is handling
    any potential wikilinks in other pages that are referring to the
    old name
- * supporting templates for certain kinds of wiki pages
+ * supporting wiki page templates - essentially predefined markup
+   structure that would be automatically inserted when creating a new page
  * more text formatting options: small text, super/subscripts, definition
    lists
  * possibility to add/configure custom markup options at runtime via configuration?
@@ -142,10 +144,10 @@ random order.
  * supporting themes and customization
  * including wiki pages within other pages
  * footnotes/references
- * generating TOC for a wiki page (from section headers)
- * implementing authentication and access control - again, not an
-   important feature for my own use case, but necessary in the general
-   case
+ * generating TOC for a wiki page (from header markup)
+ * implementing authentication and access control - as stated above, not an
+   important feature for my own use case, but has obvious benefits for
+   more general usage
    
 
 ## Copyright & License
