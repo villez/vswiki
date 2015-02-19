@@ -12,7 +12,7 @@ gem 'thin'
 # the default Rails gems
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
@@ -26,7 +26,7 @@ group :doc do
 end
 
 group :development do
-  gem 'spring', '~> 1.1.3'
+  gem 'spring', '~> 1.3.2'
   gem 'spring-commands-rspec', '~> 1.0.2'
 end
 
