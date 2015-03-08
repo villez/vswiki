@@ -42,7 +42,7 @@ group :development, :test do
 end
 
 # Capistrano for deployment
-gem 'capistrano', '~> 3.2.0'
+gem 'capistrano', '~> 3.4.0'
 gem 'capistrano-bundler', '~> 1.1.2'
 gem 'capistrano-rails', '~> 1.1.1'
 gem 'capistrano-rbenv', '~> 2.0'
