@@ -2,29 +2,22 @@
 
 [![Code Climate](https://codeclimate.com/github/villez/vswiki.png)](https://codeclimate.com/github/villez/vswiki)
 
-A personal wiki project. Because at the last count, there were only
-9999 different wiki implementations. And to try out the latest
-versions of various tools, mainly Rails 4 (see the full list
-below) and some interesting techniques.
-
-*Note: the project is in a relatively early stage of development* and
-sporadically updated based on my own interest, time, and needs. It's
-unlikey to fit anyone else's purposes at this point, but you're of
-course welcome to take a look.
-
+A toy wiki project. Not meant for "real" use, mainly for personal use
+and testing some new tools. Unlikely to fit any other use case at this
+point.
 
 ## Scope and Non-Scope
 
-The current target is not a "full-featured" wiki on par with MediaWiki
+The target is not a "full-featured" wiki on par with MediaWiki
 etc. Rather, the idea is to cherry-pick features based on which ones
 are useful and/or interesting to me in a *personal wiki* use case. The
 target usage environment is on a local machine in a
 restricted/controlled environment, such as a home network behind a
-firewall and with only trusted users. For example, I'm currently not
-planning to implement user logins, authentication &
-authorization. Some of these features may end up getting included
-later, but globally accessible multiuser environment is currently not
-the target environment for this project.
+firewall and with only trusted users. For example, currently there's
+no plan to implement even user logins, let alone more fine-grained
+access control and authorization mechanisms. Some of these features
+may end up getting included later, but globally accessible multiuser
+environment is not the target environment for this project.
 
 
 ## Wiki Markup
