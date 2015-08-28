@@ -30,7 +30,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.3.0'
-  gem 'capybara', '~> 2.4.4'
+  gem 'capybara', '~> 2.5.0'
   gem 'poltergeist', '~> 1.6.0'
   gem 'launchy', '~> 2.4.3', require: false
   gem 'shoulda-matchers', '~> 2.8.0', require: false
