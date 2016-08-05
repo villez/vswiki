@@ -9,7 +9,7 @@ point.
 ## Scope and Non-Scope
 
 The target is not a "full-featured" wiki on par with MediaWiki
-etc. Rather, the idea is to cherry-pick features based on which ones
+etc. Rather, the idea is to cherry-pick features that
 are useful and/or interesting to me in a *personal wiki* use case. The
 target usage environment is on a local machine in a
 restricted/controlled environment, such as a home network behind a
@@ -57,17 +57,17 @@ The current markup spec is roughly as follows:
    `'''strong'''`, and strong + emphasis with `'''''very strong'''''`
  * setting text color with `%green%this is green text%%`. The parameter
    accepts the same values as the CSS color property - color names,
-   hex values, etc. 
+   hex values, etc.
  * horizontal rule with `----`
  * preformatted inline text with either single backquotes or @@text@@
- 
+
 ### Internal and External Links
 
  * Wikilinks (links to other pages in the same wiki) with `[[wiki page|display label]]`
  * automatic recognition of bare http(s) links
  * external links with labeling: `[[http://example.com|display label]]`
 
-### Block Formatting: Lists, Tables, 
+### Block Formatting: Lists, Tables,
 
  * unordered lists with one or more `*`'s and ordered lists with one or more
    `#`'s; the number of asterisks/hashes indicates the nesting level
@@ -99,7 +99,7 @@ as a testing ground for the upgrades themselves to see what's required.
 
 The main dependencies and tools are:
 
- * Rails 4.2 - no strong feature dependency, just keeping up with the latest
+ * Rails 5.0 - no strong feature dependency, just keeping up with the latest
    in order to see what's in there and how the migration works
  * Ruby 2.x - again, only a minor technical dependency but want to
    keep up with the latest
@@ -110,8 +110,7 @@ The main dependencies and tools are:
  * additional dev & test utilities: launchy, SimpleCov, quiet_assets
  * Capistrano 3 set up for deployment; private deployment details not
    included in the public repo. The app doesn't contain anything
-   special why other deployment methods (such as Git deployment to Heroku) wouldn't work, but they
-   haven't been set up or tested.
+   special why other deployment methods (such as Git deployment to Heroku) wouldn't work, but they haven't been set up or tested.
 
 
 ## Future Development
@@ -120,9 +119,9 @@ This is just a list of ideas. There's no actual plan, schedule or
 commitment to implement any of these, and the list is in more or less
 random order.
 
- * keeping up with Rails upgrades, at least within 4.x
+ * keeping up with Rails upgrades
  * implementing full text search, possibly with PostgreSQL, but
-   investigate other alternatives 
+   investigate other alternatives
  * investigating possibilities for configuring other markup parsers
  * supporting image uploads, then any arbitrary files
  * investigating implementing the markup parser with a proper grammar
@@ -146,8 +145,8 @@ random order.
  * implementing authentication and access control - as stated above, not an
    important feature for my own use case, but has obvious benefits for
    more general usage
-   
+
 
 ## Copyright & License
 
-(c) 2013-2014 Ville Siltanen. MIT License.
+(c) 2013-2016 Ville Siltanen. MIT License.
