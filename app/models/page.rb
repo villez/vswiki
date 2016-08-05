@@ -1,6 +1,6 @@
 require "#{Rails.root}/lib/vswiki/parser"
 
-class Page < ActiveRecord::Base
+class Page < ApplicationRecord
 
   validates :title, presence: { message: "Cannot save a page with an empty title" }
   validates :wikititle, uniqueness: { message:
@@ -20,7 +20,7 @@ class Page < ActiveRecord::Base
     Page.find_by(wikititle: "Sidebar") ||
       Page.create(title: "Sidebar", wikitext: "!!!Sidebar\nDefault sidebar")
   end
-  
+
   def build_wikititle
     if self.title
       self.wikititle = Page.make_wikititle(self.title)
