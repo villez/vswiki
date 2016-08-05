@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
-gem 'rails', '4.2.6'
+gem 'rails', '5.0.0'
 
 # Use PostgreSQL both in development & production
 gem 'pg', '0.18.2'
@@ -10,10 +10,10 @@ gem 'pg', '0.18.2'
 gem 'thin'
 
 # the default Rails gems
-gem 'sass-rails', '~> 5.0.1'
+gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
-gem 'turbolinks'
+gem 'turbolinks', "~> 5.0.0"
 
 # Bootstrap
 gem 'bootstrap-sass', '~> 3.3.4'
@@ -29,14 +29,14 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.3.0'
-  gem 'capybara', '~> 2.5.0'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails', '~> 3.5'
+  gem 'capybara', '~> 2.7.0'
   gem 'poltergeist', '~> 1.6.0'
   gem 'launchy', '~> 2.4.3', require: false
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'simplecov', '~> 0.10.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
-  gem 'quiet_assets', '~> 1.1.0'
 end
 
 # Capistrano for deployment
