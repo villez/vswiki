@@ -4,7 +4,7 @@ ruby '2.3.1'
 gem 'rails', '5.0.0'
 
 # Use PostgreSQL both in development & production
-gem 'pg', '0.18.2'
+gem 'pg', '0.18.4'
 
 # Thin instead of WEBRick in development
 gem 'thin'
@@ -32,7 +32,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 3.5'
   gem 'capybara', '~> 2.7.0'
-  gem 'poltergeist', '~> 1.6.0'
+  gem 'poltergeist', '~> 1.10.0'
   gem 'launchy', '~> 2.4.3', require: false
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'simplecov', '~> 0.10.0', require: false
