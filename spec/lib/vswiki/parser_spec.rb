@@ -3,7 +3,7 @@
 require_relative '../../../lib/vswiki/parser'
 
 module Vswiki
-  describe Parser do
+  RSpec.describe Parser do
 
     # by default, make the link checker parameter always return true for
     # most tests; separately test the false case
@@ -65,7 +65,7 @@ module Vswiki
         expect(parser.to_html("first para\r\n\r\nsecond para\r\n\r\n\r\n\r\nthird para\r\n\r\n")).
           to eq "<p>first para</p>\n<p>second para</p>\n<p>third para</p>\n"
       end
-      
+
     end
 
     describe "Headings" do
@@ -146,7 +146,7 @@ module Vswiki
           expect(noexist_parser.to_html( "[[some link]]")).to eq "<p><a href=\"SomeLink\" class=\"wikinoexist\">some link</a></p>\n"
         end
       end
-        
+
     end # Links
 
     describe "Lists" do
@@ -198,10 +198,10 @@ module Vswiki
         it "can start a paragraph right after list with no blank line in between" do
           expect(parser.to_html("* item 1\r\n##item 1.1\r\nparagraph text")).
             to eq("<ul><li>item 1</li><ol><li>item 1.1</li></ol>\n</ul>\n<p>paragraph text</p>\n")
-          
+
         end
       end
-      
+
     end  # Lists
 
     describe "Preformatted Text" do
@@ -319,7 +319,7 @@ end
 
         it "creates th tags for ! or = prefixed cell content" do
           expect(parser.to_html("|!cell1a|!cell1b|\n|cell2a|cell2b|")).
-            to eq("<table><tr><th>cell1a</th><th>cell1b</th></tr><tr><td>cell2a</td><td>cell2b</td></tr></table>\n")          
+            to eq("<table><tr><th>cell1a</th><th>cell1b</th></tr><tr><td>cell2a</td><td>cell2b</td></tr></table>\n")
           expect(parser.to_html("|=cell1a|=cell1b|\n|cell2a|cell2b|")).
             to eq("<table><tr><th>cell1a</th><th>cell1b</th></tr><tr><td>cell2a</td><td>cell2b</td></tr></table>\n")
         end
@@ -338,11 +338,11 @@ end
           expect(parser.to_html("|cell1a| |\n| |cell2b|")).
             to eq("<table><tr><td>cell1a</td><td></td></tr><tr><td></td><td>cell2b</td></tr></table>\n")
         end
-        
+
         it "can start a paragraph right after a table with no blank line in between" do
           expect(parser.to_html("|cell1a|cell1b|\r\n|cell2a|cell2b|\r\nparagraph text")).
             to eq("<table><tr><td>cell1a</td><td>cell1b</td></tr><tr><td>cell2a</td><td>cell2b</td></tr></table>\n<p>paragraph text</p>\n")
-          
+
         end
       end
     end # Tables
@@ -357,7 +357,7 @@ end
         expect(parser.to_html("this text has %#7a6d5f%some green text%% within")).
           to eq("<p>this text has <span style=\"color: #7a6d5f;\">some green text</span> within</p>\n")
       end
-      
+
       it "supports other inline markup within colored text" do
         expect(parser.to_html("this text has %green%some ''green'' text%% within")).
           to eq("<p>this text has <span style=\"color: green;\">some <em>green</em> text</span> within</p>\n")
@@ -373,7 +373,7 @@ end
       it "escapes < and > within paragraphs" do
         expect(parser.to_html("a > b or c < d")).to eq "<p>a &gt; b or c &lt; d</p>\n"
       end
-      
+
       it "escapes & within paragraphs" do
         expect(parser.to_html("a && b || c && d")).to eq "<p>a &amp;&amp; b || c &amp;&amp; d</p>\n"
       end
@@ -389,7 +389,7 @@ end
         expect(parser.to_html("!!!Section describing <ul> and <li>")).
           to eq "<h3>Section describing &lt;ul&gt; and &lt;li&gt;</h3>\n"
       end
-      
+
       it "escapes special chars within list elements" do
         expect(parser.to_html("* this is a <li> within an <ul>")).
           to eq "<ul><li>this is a &lt;li&gt; within an &lt;ul&gt;</li></ul>\n"

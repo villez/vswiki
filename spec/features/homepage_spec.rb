@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Home Page" do
+RSpec.feature "Home Page" do
 
   before do
     visit root_url

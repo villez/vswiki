@@ -1,6 +1,7 @@
+
 require "rails_helper"
 
-feature "Create a New Page" do
+RSpec.feature "Create a New Page" do
 
   before do
     visit root_url
@@ -55,19 +56,19 @@ feature "Create a New Page" do
 
 end
 
-feature "Create a new page when visiting an non-existing page" do
+RSpec.feature "Create a new page when visiting an non-existing page" do
 
   scenario "visiting nonexistent brings up new page form" do
     visit "/NonExistentPage"
 
-    expect(page).to have_selector("h1", "New Page")
+    expect(page).to have_css("h1", text: "New page")
     expect(page).to have_field("Page title", with: "NonExistentPage")
     expect(page).to have_field("Page contents", with: "")
   end
 end
 
 
-feature "Cancelling new page" do
+RSpec.feature "Cancelling new page" do
   scenario "cancel redirects to the home page" do
     visit new_page_path
     click_link "Cancel"

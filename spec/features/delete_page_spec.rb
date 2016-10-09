@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Delete an existing page" do
+RSpec.feature "Delete an existing page" do
 
   before do
     visit page_path(Page.create(title: "some page", wikitext: "old page contents"))
@@ -12,7 +12,7 @@ feature "Delete an existing page" do
 
     # also note: condensed into a single test on purpose, because the JavaScript tests
     # are so much slower, and this is essentially a single piece of functionality
-    
+
     expect(page).not_to have_selector("#delete-confirm")
     within "#top-controls" do
       click_button "Delete"
@@ -26,7 +26,7 @@ feature "Delete an existing page" do
 
   # since we test displaying the modal above, we just use it directly
   # in the subsequent tests and focus on testing the delete feature
-  
+
   scenario "deleting the page removes it from the database" do
     expect { click_link "Yes, delete!" }.to change(Page, :count).by(-1)
   end
@@ -38,4 +38,3 @@ feature "Delete an existing page" do
     expect(page).to have_content("VSWiki Home Page")
   end
 end
-

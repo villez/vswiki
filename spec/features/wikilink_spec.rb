@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Wikilinks in page content" do
+RSpec.feature "Wikilinks in page content" do
 
   let!(:first_page) { Page.create(title: "first page", wikitext: "[[second page]]") }
   let!(:second_page) { Page.create(title: "second page", wikitext: "[[first page]]") }
@@ -13,9 +13,9 @@ feature "Wikilinks in page content" do
   scenario "linking from one page to another via wikilinks" do
     visit page_url(first_page)
     click_link "second page"
-    expect(page).to have_selector("h1", second_page.title)
+    expect(page).to have_css("h1", text: second_page.title)
     click_link "first page"
-    expect(page).to have_selector("h1", first_page.title)
+    expect(page).to have_css("h1", text: first_page.title)
   end
 
   scenario "special CSS class for wikilinks to nonexisting pages" do

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Edit an existing page" do
+RSpec.feature "Edit an existing page" do
 
   let!(:the_page) { Page.create(title: "some page", wikitext: "old page contents") }
 

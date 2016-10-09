@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Set a page to redirect to another page" do
+RSpec.feature "Set a page to redirect to another page" do
 
   let!(:nonredirect_page) { Page.create(title: "nonredirect", wikitext: "page without redirect") }
   let!(:target_page) { Page.create(title: "the target", wikitext: "target page contents") }
@@ -13,7 +13,7 @@ feature "Set a page to redirect to another page" do
     click_link "Add redirect"
     expect(page).to have_selector("#redirect")
     click_link "Hide redirect"
-    expect(page).not_to have_selector("#redirect")    
+    expect(page).not_to have_selector("#redirect")
   end
 
   scenario "redirect field is hidden on edit form if empty, can be toggled", js: true do
@@ -24,7 +24,7 @@ feature "Set a page to redirect to another page" do
     click_link "Add redirect"
     expect(page).to have_selector("#redirect")
     click_link "Hide redirect"
-    expect(page).not_to have_selector("#redirect")    
+    expect(page).not_to have_selector("#redirect")
   end
 
   scenario "redirect field is shown on edit if nonempty", js: true do

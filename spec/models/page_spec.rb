@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'shoulda/matchers'
 
-describe Page, :type => :model do
+RSpec.describe Page, :type => :model do
 
   let(:wikipage) { Page.new(title: "Test page with a few words", wikitext: "testing basic model") }
 
@@ -9,7 +9,7 @@ describe Page, :type => :model do
     it { expect(wikipage).to validate_presence_of(:title).with_message("Cannot save a page with an empty title") }
     it { expect(wikipage).to validate_uniqueness_of(:wikititle).with_message("A page with that title already exists") }
   end
-  
+
   describe "handling attributes" do
 
     it "generates wikititle from title on save" do

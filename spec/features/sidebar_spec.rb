@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Sidebar" do
+RSpec.feature "Sidebar" do
 
   let!(:sidebar) { Page.create(title: "Sidebar", wikitext: "this is the sidebar!") }
   let!(:a_page) { Page.create(title: "some other page", wikitext: "page wikitext") }
